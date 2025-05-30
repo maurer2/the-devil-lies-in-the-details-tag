@@ -7,6 +7,7 @@ globalStyle(':root', {
   vars: {
     '--color-primary': 'black',
     '--color-secondary': 'white',
+    '--color-tertiary': 'fuchsia',
   },
 });
 

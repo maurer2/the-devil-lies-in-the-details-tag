@@ -1,6 +1,11 @@
+import { Fragment, useState, useCallback, type ComponentPropsWithRef } from 'react';
 import { catNames } from 'cat-names';
-import { Fragment } from 'react';
+
 import { wrapper, pageTitle, debugList, debugListKey, debugListValue } from './app.css.ts';
+import Accordion from './components/Accordion/index.tsx';
+
+type AccordionProps = ComponentPropsWithRef<typeof Accordion>;
+type GroupName = AccordionProps['data'][number]['groupName'];
 
 const hasEntriesInGroup = <T extends Array<unknown>>(
   entry: [PropertyKey, T | undefined],
@@ -13,12 +18,33 @@ const catNamesGroupedByFirstLetter = Object.entries(
 ).filter((entry) => hasEntriesInGroup(entry));
 
 function App() {
-  console.log(catNamesGroupedByFirstLetter.length);
-  console.dir(catNamesGroupedByFirstLetter);
+  const [entries, setEntries] = useState<AccordionProps['data']>(() =>
+    catNamesGroupedByFirstLetter.map(([groupName, entries]) => ({
+      groupName,
+      entries,
+      isExpanded: false,
+    })),
+  );
+
+  const handleEntryToggle = useCallback(
+    (groupName: GroupName) => {
+      setEntries((prevEntries) =>
+        prevEntries.map((entry) =>
+          entry.groupName === groupName ? { ...entry, isExpanded: !entry.isExpanded } : entry,
+        ),
+      );
+    },
+    [setEntries],
+  );
 
   return (
     <main className={wrapper}>
       <h1 className={pageTitle}>Accordion</h1>
+
+      <Accordion data={entries} onEntryToggle={handleEntryToggle} />
+
+      <hr />
+
       <dl className={debugList}>
         {catNamesGroupedByFirstLetter.map(([groupName, groupEntries]) => (
           <Fragment key={groupName}>
