@@ -2,13 +2,19 @@ import { catNames } from 'cat-names';
 import { Fragment } from 'react';
 import { wrapper, pageTitle, debugList, debugListKey, debugListValue } from './app.css.ts';
 
+const hasEntriesInGroup = <T extends Array<unknown>>(
+  entry: [PropertyKey, T | undefined],
+): entry is [PropertyKey, T] => {
+  return Boolean(entry[1]?.length);
+};
+
 const catNamesGroupedByFirstLetter = Object.entries(
   Object.groupBy(catNames, (name) => name[0].toUpperCase()),
-).filter((entry, _): entry is [string, string[]] => Boolean(entry));
+).filter((entry) => hasEntriesInGroup(entry));
 
 function App() {
-  const catNamesGroupedByFirstLetterCount = catNamesGroupedByFirstLetter.length;
-  console.dir(catNamesGroupedByFirstLetterCount, catNamesGroupedByFirstLetter);
+  console.log(catNamesGroupedByFirstLetter.length);
+  console.dir(catNamesGroupedByFirstLetter);
 
   return (
     <main className={wrapper}>
