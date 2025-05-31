@@ -1,6 +1,6 @@
 import { type MouseEvent } from 'react';
 
-import { detailsWrapper, details, summary } from './styles.css.ts';
+import { detailsWrapper, details, summary, content } from './styles.css.ts';
 
 type GroupedEntry = {
   groupName: string;
@@ -38,7 +38,9 @@ export default function Accordion({ data, onEntryToggle }: DetailsProps) {
           name="accordion"
         >
           <summary className={summary}>{groupName}</summary>
-          <p>{listFormatter.format(entries)}</p>
+          <div className={content} onClick={(event) => event.stopPropagation()}>
+            <p>{listFormatter.format(entries)}</p>
+          </div>
         </details>
       ))}
     </div>
