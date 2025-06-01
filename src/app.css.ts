@@ -1,30 +1,32 @@
 import { style, globalStyle } from '@vanilla-extract/css';
 
+import roundWithFallback from './helpers/round-with-fallback/round-with-fallback';
+
 export const wrapper = style({
   marginInline: 'auto',
+  padding: roundWithFallback('calc(var(--spacing-default) * 2)'),
   width: 'min(100vw, 1024px)',
   minHeight: '100svh',
-  padding: ['2rlh', 'round(to-zero, 2rlh, 1px)'],
   backgroundColor: 'var(--color-secondary)',
   color: 'var(--color-primary)',
 });
 
 export const pageTitle = style({
   marginTop: 0,
-  marginBottom: ['2rlh', 'round(to-zero, 2rlh, 1px)'],
+  marginBottom: roundWithFallback('calc(var(--spacing-default) * 2)'),
 });
 
 export const groupNav = style({
   display: 'grid',
-  marginBottom: ['2rlh', 'round(to-zero, 2rlh, 1px)'],
+  marginBottom: roundWithFallback('calc(var(--spacing-default) * 2)'),
   gridTemplateColumns: 'repeat(auto-fit, minmax(25px, 1fr))',
-  gap: '1rem',
+  gap: roundWithFallback('calc(var(--spacing-default) * 0.75)'),
   textAlign: 'center',
 });
 
 globalStyle(`${groupNav} > button`, {
   padding: 0,
   border: '1px solid var(--color-primary)',
-  cursor: 'pointer',
   backgroundColor: 'var(--color-secondary)',
+  cursor: 'pointer',
 });

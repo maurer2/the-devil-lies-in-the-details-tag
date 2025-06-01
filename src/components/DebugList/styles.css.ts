@@ -1,31 +1,33 @@
 import { style } from '@vanilla-extract/css';
 
+import roundWithFallback from '../../helpers/round-with-fallback/round-with-fallback';
+
 export const debugList = style({
-  marginBlock: ['2rlh', 'round(to-zero, 2rlh, 1px)'],
   position: 'relative',
+  marginBlock: roundWithFallback('calc(var(--spacing-default) * 2)'),
 });
 
 export const debugListKey = style({
-  marginTop: 0,
-  fontWeight: 'bold',
   position: 'sticky',
   top: 0,
-  background: 'var(--color-secondary)',
+  marginTop: 0,
+  backgroundColor: 'var(--color-secondary)',
+  fontWeight: 'bold',
 
   selectors: {
     '&:not(:first-of-type)': {
-      marginTop: ['2rlh', 'round(to-zero, 2rlh, 1px)'],
+      marginTop: roundWithFallback('calc(var(--spacing-default) * 2)'),
     },
   },
 });
 
 export const debugListValue = style({
   marginTop: 0,
-  marginLeft: ['3rlh', 'round(to-zero, 3rlh, 1px)'],
+  marginLeft: roundWithFallback('calc(var(--spacing-default) * 3)'),
 
   selectors: {
     '&:not(:last-of-type)': {
-      marginBottom: ['2rlh', 'round(to-zero, 1rlh, 1px)'],
+      marginBottom: roundWithFallback('calc(var(--spacing-default) * 2)'),
     },
   },
 });

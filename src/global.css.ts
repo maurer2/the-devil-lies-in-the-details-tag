@@ -8,6 +8,8 @@ globalStyle(':root', {
     '--color-primary': 'black',
     '--color-secondary': 'white',
     '--color-tertiary': 'fuchsia',
+
+    '--spacing-default': '1rlh',
   },
 });
 
