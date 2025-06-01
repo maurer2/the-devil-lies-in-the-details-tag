@@ -7,7 +7,8 @@ export const detailsWrapper = style({
 export const details = style({
   position: 'relative',
   border: '1px solid var(--color-primary)',
-  paddingLeft: ['2rlh', 'round(to-zero, 2rlh, 1px)'],
+  paddingBlock: ['1rlh', 'round(to-zero, 1rlh, 1px)'],
+  paddingInline: ['2rlh', 'round(to-zero, 2rlh, 1px)'],
   borderTop: 0,
 
   selectors: {
@@ -16,19 +17,21 @@ export const details = style({
     },
     '&:before': {
       position: 'absolute',
-      left: '0.5rlh',
-      paddingBlock: ['1rlh', 'round(to-zero, 1rlh, 1px)'],
+      left: '0.75rlh',
       content: '+',
+      fontWeight: 600,
     },
-    '[open]&:before': {
+    '&[open]': {
+      background: 'var(--color-primary)',
+      color: 'var(--color-secondary)',
+    },
+    '&[open]:before': {
       content: '-',
-      color: 'var(--color-tertiary)',
     },
   },
 });
 
 export const summary = style({
-  paddingBlock: ['1rlh', 'round(to-zero, 1rlh, 1px)'],
   cursor: 'pointer',
 
   '::marker': {
@@ -36,9 +39,20 @@ export const summary = style({
   },
   selectors: {
     ['[open] > &, [open] > &::marker']: {
-      color: 'var(--color-tertiary)',
+      fontWeight: 600,
     },
   },
 });
 
-export const content = style({});
+export const content = style({
+  paddingTop: ['1rlh', 'round(to-zero, 1rlh, 1px)'],
+});
+
+export const debugString = style({
+  ':before': {
+    content: '(',
+  },
+  ':after': {
+    content: ')',
+  },
+});

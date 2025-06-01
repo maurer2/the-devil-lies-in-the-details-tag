@@ -1,12 +1,7 @@
 import { type MouseEvent } from 'react';
 
-import { detailsWrapper, details, summary, content } from './styles.css.ts';
-
-type GroupedEntry = {
-  groupName: string;
-  entries: string[];
-  isExpanded: boolean;
-};
+import { detailsWrapper, details, summary, content, debugString } from './styles.css.ts';
+import type { GroupedEntry } from '../../types.ts';
 
 type DetailsProps = {
   data: GroupedEntry[];
@@ -37,9 +32,11 @@ export default function Accordion({ data, onEntryToggle }: DetailsProps) {
           className={details}
           name="accordion"
         >
-          <summary className={summary}>{groupName}</summary>
+          <summary className={summary}>
+            {groupName} <span className={debugString}>{isExpanded ? 'open' : 'not open'}</span>
+          </summary>
           <div className={content} onClick={(event) => event.stopPropagation()}>
-            <p>{listFormatter.format(entries)}</p>
+            <span>{listFormatter.format(entries)}</span>
           </div>
         </details>
       ))}

@@ -1,12 +1,10 @@
-import { useState, useCallback, type ComponentPropsWithRef } from 'react';
+import { useState, useCallback } from 'react';
 import { catNames } from 'cat-names';
 
 import { wrapper, pageTitle, groupNav } from './app.css.ts';
 import Accordion from './components/Accordion';
 import DebugList from './components/DebugList';
-
-type AccordionProps = ComponentPropsWithRef<typeof Accordion>;
-type GroupName = AccordionProps['data'][number]['groupName'];
+import type { GroupedEntry } from './types.ts';
 
 const hasEntriesInGroup = <T extends Array<unknown>>(
   entry: [PropertyKey, T | undefined],
@@ -19,7 +17,7 @@ const catNamesGroupedByFirstLetter = Object.entries(
 ).filter((entry) => hasEntriesInGroup(entry));
 
 function App() {
-  const [entries, setEntries] = useState<AccordionProps['data']>(() =>
+  const [entries, setEntries] = useState<GroupedEntry[]>(() =>
     catNamesGroupedByFirstLetter.map(([groupName, entries]) => ({
       groupName,
       entries,
@@ -28,7 +26,7 @@ function App() {
   );
 
   const handleEntryToggle = useCallback(
-    (groupName: GroupName) => {
+    (groupName: GroupedEntry['groupName']) => {
       setEntries((prevEntries) =>
         prevEntries.map((entry) =>
           entry.groupName === groupName ? { ...entry, isExpanded: !entry.isExpanded } : entry,
@@ -49,6 +47,11 @@ function App() {
           </button>
         ))}
       </nav>
+
+      <p>
+        Searching for <span>Abby</span> when accordion is closed to see a state mismatch between
+        component state and the DOM.
+      </p>
 
       <Accordion data={entries} onEntryToggle={handleEntryToggle} />
 
