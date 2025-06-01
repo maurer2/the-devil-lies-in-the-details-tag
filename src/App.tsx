@@ -1,7 +1,14 @@
 import { Fragment, useState, useCallback, type ComponentPropsWithRef } from 'react';
 import { catNames } from 'cat-names';
 
-import { wrapper, pageTitle, debugList, debugListKey, debugListValue } from './app.css.ts';
+import {
+  wrapper,
+  pageTitle,
+  debugList,
+  debugListKey,
+  debugListValue,
+  groupNav,
+} from './app.css.ts';
 import Accordion from './components/Accordion/index.tsx';
 
 type AccordionProps = ComponentPropsWithRef<typeof Accordion>;
@@ -40,6 +47,14 @@ function App() {
   return (
     <main className={wrapper}>
       <h1 className={pageTitle}>Accordion</h1>
+
+      <nav className={groupNav} aria-label="Accordion groups">
+        {catNamesGroupedByFirstLetter.map(([groupName]) => (
+          <button key={groupName} onClick={() => {}}>
+            {groupName}
+          </button>
+        ))}
+      </nav>
 
       <Accordion data={entries} onEntryToggle={handleEntryToggle} />
 

@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { style, globalStyle } from '@vanilla-extract/css';
 
 export const wrapper = style({
   marginInline: 'auto',
@@ -43,4 +43,19 @@ export const debugListValue = style({
       marginBottom: ['2rlh', 'round(to-zero, 1rlh, 1px)'],
     },
   },
+});
+
+export const groupNav = style({
+  display: 'grid',
+  marginBottom: ['2rlh', 'round(to-zero, 2rlh, 1px)'],
+  gridTemplateColumns: 'repeat(auto-fit, minmax(25px, 1fr))',
+  gap: '1rem',
+  textAlign: 'center',
+});
+
+globalStyle(`${groupNav} > button`, {
+  padding: 0,
+  border: '1px solid var(--color-primary)',
+  cursor: 'pointer',
+  backgroundColor: 'var(--color-secondary)',
 });
