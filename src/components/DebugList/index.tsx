@@ -4,16 +4,16 @@ import { debugList, debugListKey, debugListValue } from './styles.css.ts';
 import type { GroupedEntry } from '../../types.ts';
 
 type DebugListProps = {
-  data: GroupedEntry[];
+  groupedEntries: GroupedEntry[];
 };
 
-export default function DebugList({ data }: DebugListProps) {
+export default function DebugList({ groupedEntries }: DebugListProps) {
   return (
     <dl className={debugList} inert>
       {/* "inert" attribute to exclude it from search */}
-      {data.map(({ groupName, entries }) => (
-        <Fragment key={groupName}>
-          <dt className={debugListKey}>{groupName}</dt>
+      {groupedEntries.map(({ name, entries }) => (
+        <Fragment key={name}>
+          <dt className={debugListKey}>{name}</dt>
           {entries.map((entryName) => (
             <dd className={debugListValue} key={entryName}>
               {entryName}

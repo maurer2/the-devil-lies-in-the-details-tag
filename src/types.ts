@@ -1,5 +1,4 @@
 export type GroupedEntry = {
-  groupName: string;
+  name: string;
   entries: string[];
-  isExpanded: boolean;
 };

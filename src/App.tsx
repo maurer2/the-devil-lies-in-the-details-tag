@@ -1,4 +1,3 @@
-import { useState, useCallback } from 'react';
 import { catNames } from 'cat-names';
 
 import { wrapper, pageTitle, groupNav } from './app.css.ts';
@@ -17,24 +16,13 @@ const catNamesGroupedByFirstLetter = Object.entries(
 ).filter((entry) => hasEntriesInGroup(entry));
 
 function App() {
-  const [entries, setEntries] = useState<GroupedEntry[]>(() =>
-    catNamesGroupedByFirstLetter.map(([groupName, entries]) => ({
-      groupName,
-      entries,
-      isExpanded: false,
-    })),
-  );
+  const groupedEntries: GroupedEntry[] = catNamesGroupedByFirstLetter.map(([name, entries]) => ({
+    name,
+    entries,
+  }));
 
-  const handleEntryToggle = useCallback(
-    (groupName: GroupedEntry['groupName']) => {
-      setEntries((prevEntries) =>
-        prevEntries.map((entry) =>
-          entry.groupName === groupName ? { ...entry, isExpanded: !entry.isExpanded } : entry,
-        ),
-      );
-    },
-    [setEntries],
-  );
+  // ensure that Accordion would be reset/remounted if groupedEntries were to be made dynamic so that usesState initializer function is run again with current data
+  const groupedEntriesKey = JSON.stringify(groupedEntries);
 
   return (
     <main className={wrapper}>
@@ -53,11 +41,11 @@ function App() {
         component state and the DOM.
       </p>
 
-      <Accordion data={entries} onEntryToggle={handleEntryToggle} />
+      <Accordion groupedEntries={groupedEntries} key={groupedEntriesKey} />
 
       <hr />
 
-      <DebugList data={entries} />
+      <DebugList groupedEntries={groupedEntries} />
     </main>
   );
 }
