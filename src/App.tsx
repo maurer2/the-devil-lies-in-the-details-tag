@@ -1,15 +1,9 @@
-import { Fragment, useState, useCallback, type ComponentPropsWithRef } from 'react';
+import { useState, useCallback, type ComponentPropsWithRef } from 'react';
 import { catNames } from 'cat-names';
 
-import {
-  wrapper,
-  pageTitle,
-  debugList,
-  debugListKey,
-  debugListValue,
-  groupNav,
-} from './app.css.ts';
-import Accordion from './components/Accordion/index.tsx';
+import { wrapper, pageTitle, groupNav } from './app.css.ts';
+import Accordion from './components/Accordion';
+import DebugList from './components/DebugList';
 
 type AccordionProps = ComponentPropsWithRef<typeof Accordion>;
 type GroupName = AccordionProps['data'][number]['groupName'];
@@ -60,18 +54,7 @@ function App() {
 
       <hr />
 
-      <dl className={debugList}>
-        {catNamesGroupedByFirstLetter.map(([groupName, groupEntries]) => (
-          <Fragment key={groupName}>
-            <dt className={debugListKey}>{groupName}</dt>
-            {groupEntries.map((entryName) => (
-              <dd className={debugListValue} key={entryName}>
-                {entryName}
-              </dd>
-            ))}
-          </Fragment>
-        ))}
-      </dl>
+      <DebugList data={entries} />
     </main>
   );
 }
