@@ -1,14 +1,19 @@
-import { useState, type MouseEvent } from 'react';
+import {
+  useState,
+  type MouseEvent,
+  type SyntheticEvent,
+  /* type ToggleEventHandler, */
+} from 'react';
 
 import { detailsWrapper, details, summary, content, debugString } from './styles.css.ts';
 import type { GroupedEntry } from '../../types.ts';
 
-type AccordionEntry = GroupedEntry & {
-  isExpanded: boolean;
-};
-
 type DetailsProps = {
   groupedEntries: GroupedEntry[];
+};
+
+type AccordionEntry = GroupedEntry & {
+  isExpanded: boolean;
 };
 
 type GroupName = GroupedEntry['name'];
@@ -20,16 +25,16 @@ const listFormatter = new Intl.ListFormat('en-GB', {
 
 export default function Accordion({ groupedEntries }: DetailsProps) {
   const [entries, setEntries] = useState<AccordionEntry[]>(() =>
-    groupedEntries.map(({ name, entries }) => ({
+    groupedEntries.map(({ name, entries }, index) => ({
       name,
       entries,
-      isExpanded: false,
+      isExpanded: index === 1,
     })),
   );
 
-  const handleToggle = (name: GroupName) => (event: MouseEvent<HTMLDetailsElement>) => {
+  const handleClick = (name: GroupName) => (event: MouseEvent<HTMLDetailsElement>) => {
     event.preventDefault();
-    console.log(`${name} toggled`);
+    console.log(`${name} changed on click`);
 
     setEntries((prevEntries) =>
       prevEntries.map((entry) =>
@@ -46,12 +51,21 @@ export default function Accordion({ groupedEntries }: DetailsProps) {
     );
   };
 
+  // ToggleEventHandler<HTMLDetailsElement> doesn't work
+  const handleToggle = (name: GroupName) => (event: SyntheticEvent<HTMLDetailsElement>) => {
+    // Note: onToggle fires on mount for details elements that are expanded by default
+    console.log(`${name} changed on toggle`, event.currentTarget.open);
+
+    // todo: move setEntries logic to handleToggle to avoid state mismatch when search function triggers toggle
+  };
+
   return (
     <div className={detailsWrapper}>
       {entries.map(({ name, entries, isExpanded }) => (
         <details
           open={isExpanded}
-          onClick={handleToggle(name)}
+          onClick={handleClick(name)}
+          onToggle={handleToggle(name)}
           key={name}
           className={details}
           name="accordion"
