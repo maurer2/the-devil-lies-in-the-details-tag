@@ -1,6 +1,6 @@
 import {
   useState,
-  type MouseEvent,
+  /* type MouseEvent, */
   type SyntheticEvent,
   /* type ToggleEventHandler, */
 } from 'react';
@@ -23,6 +23,24 @@ const listFormatter = new Intl.ListFormat('en-GB', {
   type: 'conjunction',
 });
 
+// const getToggledEntries = (
+//   entries: AccordionEntry[],
+//   toggledEntryName: GroupName,
+//   // keepStateOfNonToggledEntries = false,
+// ) => {
+//   return entries.map((entry) =>
+//     entry.name === toggledEntryName
+//       ? {
+//           ...entry,
+//           isExpanded: !entry.isExpanded,
+//         }
+//       : {
+//           ...entry,
+//           isExpanded: false,
+//         },
+//   );
+// };
+
 export default function Accordion({ groupedEntries }: DetailsProps) {
   const [entries, setEntries] = useState<AccordionEntry[]>(() =>
     groupedEntries.map(({ name, entries }, index) => ({
@@ -32,43 +50,70 @@ export default function Accordion({ groupedEntries }: DetailsProps) {
     })),
   );
 
-  const handleClick = (name: GroupName) => (event: MouseEvent<HTMLDetailsElement>) => {
-    event.preventDefault();
-    console.log(`${name} changed on click`);
+  // const handleClick =
+  //   (name: GroupName) =>
+  //   (event: MouseEvent<HTMLDetailsElement>): void => {
+  //     event.preventDefault();
+  //     console.log(`${name} changed on click`);
 
-    setEntries((prevEntries) =>
-      prevEntries.map((entry) =>
-        entry.name === name
-          ? {
-              ...entry,
-              isExpanded: !entry.isExpanded,
-            }
-          : {
-              ...entry,
-              isExpanded: false,
-            },
-      ),
-    );
-  };
+  //     startTransition(() => {
+  //       setEntries((prevEntries) =>
+  //         prevEntries.map((entry) =>
+  //           entry.name === name
+  //             ? {
+  //                 ...entry,
+  //                 isExpanded: !entry.isExpanded,
+  //               }
+  //             : {
+  //                 ...entry,
+  //                 isExpanded: false,
+  //               },
+  //         ),
+  //       );
+  //     });
+  //   };
 
-  // ToggleEventHandler<HTMLDetailsElement> doesn't work
-  const handleToggle = (name: GroupName) => (event: SyntheticEvent<HTMLDetailsElement>) => {
-    // Note: onToggle fires on mount for details elements that are expanded by default
-    console.log(`${name} changed on toggle`, event.currentTarget.open);
+  // Note: onToggle fires on mount for details elements that are expanded by default
+  // ToggleEventHandler<HTMLDetailsElement> causes TS error
+  const handleToggle =
+    (name: GroupName) =>
+    (event: SyntheticEvent<HTMLDetailsElement>): void => {
+      event.preventDefault();
 
-    // todo: move setEntries logic to handleToggle to avoid state mismatch when search function triggers toggle
-  };
+      const isExpanded = event.currentTarget.open;
+      const nameOfOpenElements = entries
+        .filter((entry) => entry.isExpanded)
+        .map(({ name }) => name);
+
+      // ignore onToggle calls on mount for elements that are expanded by default
+      if (isExpanded && nameOfOpenElements.includes(name)) {
+        return;
+      }
+
+      console.log(`${name} changed on toggle to`, isExpanded);
+
+      setEntries((prevEntries) =>
+        prevEntries.map((entry) =>
+          entry.name === name
+            ? {
+                ...entry,
+                isExpanded,
+              }
+            : entry,
+        ),
+      );
+    };
 
   return (
     <div className={detailsWrapper}>
       {entries.map(({ name, entries, isExpanded }) => (
         <details
           open={isExpanded}
-          onClick={handleClick(name)}
+          // onClick={handleClick(name)}
           onToggle={handleToggle(name)}
           key={name}
           className={details}
-          name="accordion"
+          name="accordion" // same name for all details tag to allow only one details tag to be expanded
         >
           <summary className={summary}>
             {name} <span className={debugString}>{isExpanded ? 'open' : 'not open'}</span>
