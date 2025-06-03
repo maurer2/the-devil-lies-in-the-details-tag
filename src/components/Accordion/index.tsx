@@ -1,11 +1,19 @@
 import {
   useState,
-  /* type MouseEvent, */
+  useMemo,
   type SyntheticEvent,
   /* type ToggleEventHandler, */
 } from 'react';
 
-import { detailsWrapper, details, summary, content, debugString } from './styles.css.ts';
+import {
+  detailsWrapper,
+  details,
+  summary,
+  content,
+  debugString,
+  toggleButtonGroup,
+  toggleButton,
+} from './styles.css.ts';
 import type { GroupedEntry } from '../../types.ts';
 
 type DetailsProps = {
@@ -49,29 +57,10 @@ export default function Accordion({ groupedEntries }: DetailsProps) {
       isExpanded: index === 1,
     })),
   );
-
-  // const handleClick =
-  //   (name: GroupName) =>
-  //   (event: MouseEvent<HTMLDetailsElement>): void => {
-  //     event.preventDefault();
-  //     console.log(`${name} changed on click`);
-
-  //     startTransition(() => {
-  //       setEntries((prevEntries) =>
-  //         prevEntries.map((entry) =>
-  //           entry.name === name
-  //             ? {
-  //                 ...entry,
-  //                 isExpanded: !entry.isExpanded,
-  //               }
-  //             : {
-  //                 ...entry,
-  //                 isExpanded: false,
-  //               },
-  //         ),
-  //       );
-  //     });
-  //   };
+  const namesOfOpenEntries = useMemo(
+    () => entries.filter(({ isExpanded }) => isExpanded).map(({ name }) => name),
+    [entries],
+  );
 
   // Note: onToggle fires on mount for details elements that are expanded by default
   // ToggleEventHandler<HTMLDetailsElement> causes TS error
@@ -81,16 +70,12 @@ export default function Accordion({ groupedEntries }: DetailsProps) {
       event.preventDefault();
 
       const isExpanded = event.currentTarget.open;
-      const nameOfOpenElements = entries
-        .filter((entry) => entry.isExpanded)
-        .map(({ name }) => name);
 
       // ignore onToggle calls on mount for elements that are expanded by default
-      if (isExpanded && nameOfOpenElements.includes(name)) {
+      if (isExpanded && namesOfOpenEntries.includes(name)) {
         return;
       }
-
-      console.log(`${name} changed on toggle to`, isExpanded);
+      console.log(`${name} was toggled to`, isExpanded ? 'open' : 'not open');
 
       setEntries((prevEntries) =>
         prevEntries.map((entry) =>
@@ -104,16 +89,63 @@ export default function Accordion({ groupedEntries }: DetailsProps) {
       );
     };
 
+  const collapseAllEntries = (): void => {
+    if (!hasCollapsibleEntries) {
+      return;
+    }
+    setEntries((prevEntries) =>
+      prevEntries.map((entry) => ({
+        ...entry,
+        isExpanded: false,
+      })),
+    );
+  };
+
+  const expandAllEntries = (): void => {
+    if (!hasExpandableEntries) {
+      return;
+    }
+    setEntries((prevEntries) =>
+      prevEntries.map((entry) => ({
+        ...entry,
+        isExpanded: true,
+      })),
+    );
+  };
+
+  const hasCollapsibleEntries = Boolean(namesOfOpenEntries.length);
+  const hasExpandableEntries = namesOfOpenEntries.length !== entries.length;
+
   return (
     <div className={detailsWrapper}>
+      <div className={toggleButtonGroup} role="group" aria-label="Collapse and Expand buttons">
+        <button
+          type="button"
+          className={toggleButton}
+          onClick={collapseAllEntries}
+          aria-disabled={!hasCollapsibleEntries}
+          aria-label="Collapse all entries"
+        >
+          Collapse
+        </button>
+        <button
+          type="button"
+          className={toggleButton}
+          onClick={expandAllEntries}
+          aria-disabled={!hasExpandableEntries}
+          aria-label="Expand all entries"
+        >
+          Expand
+        </button>
+      </div>
+
       {entries.map(({ name, entries, isExpanded }) => (
         <details
           open={isExpanded}
-          // onClick={handleClick(name)}
           onToggle={handleToggle(name)}
           key={name}
           className={details}
-          name="accordion" // same name for all details tag to allow only one details tag to be expanded
+          // name="accordion" // same name for all details tag to allow only one details tag to be expanded
         >
           <summary className={summary}>
             {name} <span className={debugString}>{isExpanded ? 'open' : 'not open'}</span>
