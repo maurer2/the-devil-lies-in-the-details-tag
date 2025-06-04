@@ -1,7 +1,8 @@
 import { useState, useMemo, createContext } from 'react';
 
 import AccordionDetails from './components/AccordionDetails';
-import { detailsWrapper, toggleButtonGroup, toggleButton } from './styles.css.ts';
+import AccordionToggleButtons from './components/AccordionToggleButtons';
+import { detailsWrapper } from './styles.css.ts';
 import type { GroupedEntry, GroupName } from '../../types.ts';
 
 type DetailsProps = {
@@ -38,7 +39,6 @@ export default function Accordion({
       isExpanded: defaultExpandedGroupNames.includes(name),
     })),
   );
-
   const accordionContextValues = useMemo<AccordionContextState>(
     () => ({
       groupedEntries: entries,
@@ -48,16 +48,12 @@ export default function Accordion({
     }),
     [entries, setEntries],
   );
-
   const namesOfExpandedGroups = useMemo(
     () => entries.filter(({ isExpanded }) => isExpanded).map(({ name }) => name),
     [entries],
   );
 
-  const collapseAllEntries = (): void => {
-    if (!hasCollapsibleEntries) {
-      return;
-    }
+  const handleCollapseButtonClick = (): void => {
     setEntries((prevEntries) =>
       prevEntries.map((entry) => ({
         ...entry,
@@ -66,10 +62,7 @@ export default function Accordion({
     );
   };
 
-  const expandAllEntries = (): void => {
-    if (!hasExpandableEntries) {
-      return;
-    }
+  const handleExpandButtonClick = (): void => {
     setEntries((prevEntries) =>
       prevEntries.map((entry) => ({
         ...entry,
@@ -91,35 +84,19 @@ export default function Accordion({
     );
   };
 
-  const hasCollapsibleEntries = Boolean(namesOfExpandedGroups.length);
-  const hasExpandableEntries = namesOfExpandedGroups.length !== entries.length;
-
   return (
     <AccordionContext.Provider value={accordionContextValues}>
       <div className={detailsWrapper}>
-        <div className={toggleButtonGroup} role="group" aria-label="Collapse and Expand buttons">
-          <button
-            type="button"
-            className={toggleButton}
-            onClick={collapseAllEntries}
-            aria-disabled={!hasCollapsibleEntries}
-            aria-label="Collapse all entries"
-          >
-            Collapse
-          </button>
-          <button
-            type="button"
-            className={toggleButton}
-            onClick={expandAllEntries}
-            aria-disabled={!hasExpandableEntries}
-            aria-label="Expand all entries"
-          >
-            Expand
-          </button>
-        </div>
+        <AccordionToggleButtons
+          accordionEntries={entries}
+          namesOfExpandedGroups={namesOfExpandedGroups}
+          onExpandButtonClick={handleExpandButtonClick}
+          onCollapseButtonClick={handleCollapseButtonClick}
+        />
 
         <AccordionDetails
           accordionEntries={entries}
+          namesOfExpandedGroups={namesOfExpandedGroups}
           onAccordionEntryToggle={handleAccordionEntryToggle}
         />
       </div>
