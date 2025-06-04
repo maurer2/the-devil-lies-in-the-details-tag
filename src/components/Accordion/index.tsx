@@ -1,60 +1,50 @@
-import { useState, useMemo, createContext } from 'react';
+import { useState, useMemo, createContext, type PropsWithChildren } from 'react';
 
 import AccordionDetails from './components/AccordionDetails';
 import AccordionToggleButtons from './components/AccordionToggleButtons';
 import { detailsWrapper } from './styles.css.ts';
 import type { GroupedEntry, GroupName } from '../../types.ts';
 
-type DetailsProps = {
+type DetailsProps = PropsWithChildren<{
   groupedEntries: GroupedEntry[];
   defaultExpandedGroupNames?: GroupName[];
-};
+}>;
 
 type AccordionEntry = GroupedEntry & {
   isExpanded: boolean;
 };
 
 export type AccordionContextState = {
-  groupedEntries: AccordionEntry[];
+  accordionEntries: AccordionEntry[];
   defaultExpandedGroupNames: GroupName[];
-  selectedGroups: GroupName[];
-  setGroupedEntries: (entries: AccordionEntry[]) => void;
+  setAccordionEntries: (entries: AccordionEntry[]) => void;
 };
 
 const AccordionContext = createContext<AccordionContextState>({
-  groupedEntries: [],
-  selectedGroups: [],
+  accordionEntries: [],
   defaultExpandedGroupNames: [],
-  setGroupedEntries: () => {},
+  setAccordionEntries: () => {},
 });
 
 export default function Accordion({
   groupedEntries,
   defaultExpandedGroupNames = [],
+  children,
 }: DetailsProps) {
-  const [entries, setEntries] = useState<AccordionEntry[]>(() =>
+  const [accordionEntries, setAccordionEntries] = useState<AccordionEntry[]>(() =>
     groupedEntries.map(({ name, entries }) => ({
       name,
       entries,
       isExpanded: defaultExpandedGroupNames.includes(name),
     })),
   );
-  const accordionContextValues = useMemo<AccordionContextState>(
-    () => ({
-      groupedEntries: entries,
-      selectedGroups: [],
-      defaultExpandedGroupNames: [],
-      setGroupedEntries: setEntries,
-    }),
-    [entries, setEntries],
-  );
   const namesOfExpandedGroups = useMemo(
-    () => entries.filter(({ isExpanded }) => isExpanded).map(({ name }) => name),
-    [entries],
+    () => accordionEntries.filter(({ isExpanded }) => isExpanded).map(({ name }) => name),
+    [accordionEntries],
   );
 
   const handleCollapseButtonClick = (): void => {
-    setEntries((prevEntries) =>
+    setAccordionEntries((prevEntries) =>
       prevEntries.map((entry) => ({
         ...entry,
         isExpanded: false,
@@ -63,7 +53,7 @@ export default function Accordion({
   };
 
   const handleExpandButtonClick = (): void => {
-    setEntries((prevEntries) =>
+    setAccordionEntries((prevEntries) =>
       prevEntries.map((entry) => ({
         ...entry,
         isExpanded: true,
@@ -71,8 +61,8 @@ export default function Accordion({
     );
   };
 
-  const handleAccordionEntryToggle = (name: GroupName, isExpanded: boolean) => {
-    setEntries((prevEntries) =>
+  const handleAccordionEntryToggle = (name: GroupName, isExpanded: boolean): void => {
+    setAccordionEntries((prevEntries) =>
       prevEntries.map((entry) =>
         entry.name === name
           ? {
@@ -84,18 +74,27 @@ export default function Accordion({
     );
   };
 
+  const accordionContextValues = useMemo<AccordionContextState>(
+    () => ({
+      accordionEntries,
+      defaultExpandedGroupNames: [],
+      setAccordionEntries,
+    }),
+    [accordionEntries, setAccordionEntries],
+  );
+
   return (
     <AccordionContext.Provider value={accordionContextValues}>
       <div className={detailsWrapper}>
         <AccordionToggleButtons
-          accordionEntries={entries}
+          accordionEntries={accordionEntries}
           namesOfExpandedGroups={namesOfExpandedGroups}
           onExpandButtonClick={handleExpandButtonClick}
           onCollapseButtonClick={handleCollapseButtonClick}
         />
 
         <AccordionDetails
-          accordionEntries={entries}
+          accordionEntries={accordionEntries}
           namesOfExpandedGroups={namesOfExpandedGroups}
           onAccordionEntryToggle={handleAccordionEntryToggle}
         />
