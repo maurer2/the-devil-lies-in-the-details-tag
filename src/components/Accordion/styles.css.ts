@@ -58,13 +58,13 @@ export const details = style({
       left: '0.75rlh',
       fontWeight: 600,
     },
+    '&[open]:before': {
+      content: '-',
+    },
     '&[open]': {
       backgroundColor: 'var(--color-primary)',
       color: 'var(--color-secondary)',
       borderBottom: '1px solid currentColor',
-    },
-    '&[open]:before': {
-      content: '-',
     },
   },
 });

@@ -14,17 +14,16 @@ import {
   toggleButtonGroup,
   toggleButton,
 } from './styles.css.ts';
-import type { GroupedEntry } from '../../types.ts';
+import type { GroupedEntry, GroupName } from '../../types.ts';
 
 type DetailsProps = {
   groupedEntries: GroupedEntry[];
+  defaultExpandedGroupNames?: GroupName[];
 };
 
 type AccordionEntry = GroupedEntry & {
   isExpanded: boolean;
 };
-
-type GroupName = GroupedEntry['name'];
 
 const listFormatter = new Intl.ListFormat('en-GB', {
   style: 'long',
@@ -49,15 +48,18 @@ const listFormatter = new Intl.ListFormat('en-GB', {
 //   );
 // };
 
-export default function Accordion({ groupedEntries }: DetailsProps) {
+export default function Accordion({
+  groupedEntries,
+  defaultExpandedGroupNames = [],
+}: DetailsProps) {
   const [entries, setEntries] = useState<AccordionEntry[]>(() =>
-    groupedEntries.map(({ name, entries }, index) => ({
+    groupedEntries.map(({ name, entries }) => ({
       name,
       entries,
-      isExpanded: index === 1,
+      isExpanded: defaultExpandedGroupNames.includes(name),
     })),
   );
-  const namesOfOpenEntries = useMemo(
+  const namesOfExpandedGroups = useMemo(
     () => entries.filter(({ isExpanded }) => isExpanded).map(({ name }) => name),
     [entries],
   );
@@ -71,11 +73,11 @@ export default function Accordion({ groupedEntries }: DetailsProps) {
 
       const isExpanded = event.currentTarget.open;
 
-      // ignore onToggle calls on mount for elements that are expanded by default
-      if (isExpanded && namesOfOpenEntries.includes(name)) {
+      // ignore onToggle calls on mount for details elements that are expanded by default
+      if (isExpanded && namesOfExpandedGroups.includes(name)) {
         return;
       }
-      console.log(`${name} was toggled to`, isExpanded ? 'open' : 'not open');
+      console.info(`${name} was toggled to`, isExpanded ? 'open' : 'not open');
 
       setEntries((prevEntries) =>
         prevEntries.map((entry) =>
@@ -113,8 +115,8 @@ export default function Accordion({ groupedEntries }: DetailsProps) {
     );
   };
 
-  const hasCollapsibleEntries = Boolean(namesOfOpenEntries.length);
-  const hasExpandableEntries = namesOfOpenEntries.length !== entries.length;
+  const hasCollapsibleEntries = Boolean(namesOfExpandedGroups.length);
+  const hasExpandableEntries = namesOfExpandedGroups.length !== entries.length;
 
   return (
     <div className={detailsWrapper}>

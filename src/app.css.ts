@@ -16,17 +16,26 @@ export const pageTitle = style({
   marginBottom: roundWithFallback('calc(var(--spacing-default) * 2)'),
 });
 
-export const groupNav = style({
+export const groupToggles = style({
   display: 'grid',
   marginBottom: roundWithFallback('calc(var(--spacing-default) * 2)'),
-  gridTemplateColumns: 'repeat(auto-fit, minmax(25px, 1fr))',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(50px, 1fr))',
   gap: roundWithFallback('calc(var(--spacing-default) * 0.75)'),
   textAlign: 'center',
 });
 
-globalStyle(`${groupNav} > button`, {
-  padding: 0,
+export const groupToggle = style({
+  paddingInline: roundWithFallback('calc(var(--spacing-default) * 1)'),
+  paddingBlock: roundWithFallback('calc(var(--spacing-default) * 0.75)'),
   border: '1px solid var(--color-primary)',
   backgroundColor: 'var(--color-secondary)',
   cursor: 'pointer',
+  textAlign: 'center',
+
+  selectors: {
+    '&[aria-pressed=true]': {
+      backgroundColor: 'var(--color-tertiary)',
+      border: '1px solid var(--color-tertiary)',
+    },
+  },
 });
