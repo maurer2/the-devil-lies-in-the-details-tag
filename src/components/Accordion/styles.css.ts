@@ -6,7 +6,7 @@ export const detailsWrapperContainer = createContainer();
 
 export const detailsWrapper = style({
   marginBottom: roundWithFallback('calc(var(--spacing-default) * 2)'),
-  containerName: 'detailsWrapperContainer',
+  containerName: detailsWrapperContainer,
   containerType: 'inline-size',
 });
 
@@ -35,7 +35,7 @@ export const toggleButton = style({
   },
 
   '@container': {
-    ['detailsWrapperContainer (width > 400px)']: {
+    [`${detailsWrapperContainer} (width > 400px)`]: {
       flexBasis: 'auto',
     },
   },
