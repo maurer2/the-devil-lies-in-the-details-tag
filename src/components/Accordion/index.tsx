@@ -1,21 +1,7 @@
-import {
-  useState,
-  useMemo,
-  useContext,
-  createContext,
-  type SyntheticEvent,
-  /* type ToggleEventHandler, */
-} from 'react';
+import { useState, useMemo, createContext } from 'react';
 
-import {
-  detailsWrapper,
-  details,
-  summary,
-  content,
-  debugString,
-  toggleButtonGroup,
-  toggleButton,
-} from './styles.css.ts';
+import AccordionDetails from './components/AccordionDetails';
+import { detailsWrapper, toggleButtonGroup, toggleButton } from './styles.css.ts';
 import type { GroupedEntry, GroupName } from '../../types.ts';
 
 type DetailsProps = {
@@ -27,26 +13,24 @@ type AccordionEntry = GroupedEntry & {
   isExpanded: boolean;
 };
 
-const listFormatter = new Intl.ListFormat('en-GB', {
-  style: 'long',
-  type: 'conjunction',
-});
-
-type AccordionContextState = {
-  groupedEntries: GroupedEntry[];
+export type AccordionContextState = {
+  groupedEntries: AccordionEntry[];
   defaultExpandedGroupNames: GroupName[];
+  selectedGroups: GroupName[];
+  setGroupedEntries: (entries: AccordionEntry[]) => void;
 };
 
 const AccordionContext = createContext<AccordionContextState>({
   groupedEntries: [],
+  selectedGroups: [],
   defaultExpandedGroupNames: [],
+  setGroupedEntries: () => {},
 });
 
 export default function Accordion({
   groupedEntries,
   defaultExpandedGroupNames = [],
 }: DetailsProps) {
-  const [selectedGroups, setSelectedGroups] = useState<GroupName[]>([]);
   const [entries, setEntries] = useState<AccordionEntry[]>(() =>
     groupedEntries.map(({ name, entries }) => ({
       name,
@@ -54,45 +38,21 @@ export default function Accordion({
       isExpanded: defaultExpandedGroupNames.includes(name),
     })),
   );
+
   const accordionContextValues = useMemo<AccordionContextState>(
     () => ({
-      groupedEntries: [],
+      groupedEntries: entries,
+      selectedGroups: [],
       defaultExpandedGroupNames: [],
+      setGroupedEntries: setEntries,
     }),
-    [],
+    [entries, setEntries],
   );
 
   const namesOfExpandedGroups = useMemo(
     () => entries.filter(({ isExpanded }) => isExpanded).map(({ name }) => name),
     [entries],
   );
-
-  // Note: onToggle fires on mount for details elements that are expanded by default
-  // ToggleEventHandler<HTMLDetailsElement> causes TS error
-  const handleToggle =
-    (name: GroupName) =>
-    (event: SyntheticEvent<HTMLDetailsElement>): void => {
-      event.preventDefault();
-
-      const isExpanded = event.currentTarget.open;
-
-      // ignore onToggle calls on mount for details elements that are expanded by default
-      if (isExpanded && namesOfExpandedGroups.includes(name)) {
-        return;
-      }
-      console.info(`${name} was toggled to`, isExpanded ? 'open' : 'not open');
-
-      setEntries((prevEntries) =>
-        prevEntries.map((entry) =>
-          entry.name === name
-            ? {
-                ...entry,
-                isExpanded,
-              }
-            : entry,
-        ),
-      );
-    };
 
   const collapseAllEntries = (): void => {
     if (!hasCollapsibleEntries) {
@@ -118,48 +78,51 @@ export default function Accordion({
     );
   };
 
+  const handleAccordionEntryToggle = (name: GroupName, isExpanded: boolean) => {
+    setEntries((prevEntries) =>
+      prevEntries.map((entry) =>
+        entry.name === name
+          ? {
+              ...entry,
+              isExpanded,
+            }
+          : entry,
+      ),
+    );
+  };
+
   const hasCollapsibleEntries = Boolean(namesOfExpandedGroups.length);
   const hasExpandableEntries = namesOfExpandedGroups.length !== entries.length;
 
   return (
-    <div className={detailsWrapper}>
-      <div className={toggleButtonGroup} role="group" aria-label="Collapse and Expand buttons">
-        <button
-          type="button"
-          className={toggleButton}
-          onClick={collapseAllEntries}
-          aria-disabled={!hasCollapsibleEntries}
-          aria-label="Collapse all entries"
-        >
-          Collapse
-        </button>
-        <button
-          type="button"
-          className={toggleButton}
-          onClick={expandAllEntries}
-          aria-disabled={!hasExpandableEntries}
-          aria-label="Expand all entries"
-        >
-          Expand
-        </button>
-      </div>
+    <AccordionContext.Provider value={accordionContextValues}>
+      <div className={detailsWrapper}>
+        <div className={toggleButtonGroup} role="group" aria-label="Collapse and Expand buttons">
+          <button
+            type="button"
+            className={toggleButton}
+            onClick={collapseAllEntries}
+            aria-disabled={!hasCollapsibleEntries}
+            aria-label="Collapse all entries"
+          >
+            Collapse
+          </button>
+          <button
+            type="button"
+            className={toggleButton}
+            onClick={expandAllEntries}
+            aria-disabled={!hasExpandableEntries}
+            aria-label="Expand all entries"
+          >
+            Expand
+          </button>
+        </div>
 
-      {entries.map(({ name, entries, isExpanded }) => (
-        <details
-          open={isExpanded}
-          onToggle={handleToggle(name)}
-          key={name}
-          className={details}
-          // name="accordion" // same name for all details tag to allow only one details tag to be expanded
-        >
-          <summary className={summary}>
-            {name} <span className={debugString}>{isExpanded ? 'open' : 'not open'}</span>
-          </summary>
-          <div className={content} onClick={(event) => event.stopPropagation()}>
-            <span>{listFormatter.format(entries)}</span>
-          </div>
-        </details>
-      ))}
-    </div>
+        <AccordionDetails
+          accordionEntries={entries}
+          onAccordionEntryToggle={handleAccordionEntryToggle}
+        />
+      </div>
+    </AccordionContext.Provider>
   );
 }

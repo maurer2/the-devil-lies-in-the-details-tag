@@ -1,4 +1,4 @@
-import type { MouseEvent } from 'react';
+// import type { MouseEvent } from 'react';
 import { catNames } from 'cat-names';
 
 import { wrapper, pageTitle, groupToggles, groupToggle } from './app.css.ts';
@@ -17,7 +17,6 @@ const catNamesGroupedByFirstLetter = Object.entries(
 ).filter((entry) => hasEntriesInGroup(entry));
 
 function App() {
-  // const [selectedGroups, setSelectedGroups] = useState<GroupName[]>([]);
   const groupedEntries: GroupedEntry[] = catNamesGroupedByFirstLetter.map(([name, entries]) => ({
     name,
     entries,
