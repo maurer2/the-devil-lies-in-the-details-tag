@@ -1,6 +1,8 @@
 import {
   useState,
   useMemo,
+  useContext,
+  createContext,
   type SyntheticEvent,
   /* type ToggleEventHandler, */
 } from 'react';
@@ -30,28 +32,21 @@ const listFormatter = new Intl.ListFormat('en-GB', {
   type: 'conjunction',
 });
 
-// const getToggledEntries = (
-//   entries: AccordionEntry[],
-//   toggledEntryName: GroupName,
-//   // keepStateOfNonToggledEntries = false,
-// ) => {
-//   return entries.map((entry) =>
-//     entry.name === toggledEntryName
-//       ? {
-//           ...entry,
-//           isExpanded: !entry.isExpanded,
-//         }
-//       : {
-//           ...entry,
-//           isExpanded: false,
-//         },
-//   );
-// };
+type AccordionContextState = {
+  groupedEntries: GroupedEntry[];
+  defaultExpandedGroupNames: GroupName[];
+};
+
+const AccordionContext = createContext<AccordionContextState>({
+  groupedEntries: [],
+  defaultExpandedGroupNames: [],
+});
 
 export default function Accordion({
   groupedEntries,
   defaultExpandedGroupNames = [],
 }: DetailsProps) {
+  const [selectedGroups, setSelectedGroups] = useState<GroupName[]>([]);
   const [entries, setEntries] = useState<AccordionEntry[]>(() =>
     groupedEntries.map(({ name, entries }) => ({
       name,
@@ -59,6 +54,14 @@ export default function Accordion({
       isExpanded: defaultExpandedGroupNames.includes(name),
     })),
   );
+  const accordionContextValues = useMemo<AccordionContextState>(
+    () => ({
+      groupedEntries: [],
+      defaultExpandedGroupNames: [],
+    }),
+    [],
+  );
+
   const namesOfExpandedGroups = useMemo(
     () => entries.filter(({ isExpanded }) => isExpanded).map(({ name }) => name),
     [entries],
