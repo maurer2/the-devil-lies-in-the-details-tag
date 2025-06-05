@@ -1,26 +1,29 @@
 import { useState, useMemo, createContext, type PropsWithChildren } from 'react';
+import type { Simplify } from 'type-fest';
 
 import AccordionDetails from './components/AccordionDetails';
 import AccordionToggleButtons from './components/AccordionToggleButtons';
 import { detailsWrapper } from './styles.css.ts';
 import type { GroupedEntry, GroupName } from '../../types.ts';
 
-type DetailsProps = PropsWithChildren<{
+type AccordionProps = PropsWithChildren<{
   groupedEntries: GroupedEntry[];
   defaultExpandedGroupNames?: GroupName[];
 }>;
 
-type AccordionEntry = GroupedEntry & {
-  isExpanded: boolean;
-};
+type AccordionEntry = Simplify<
+  GroupedEntry & {
+    isExpanded: boolean;
+  }
+>;
 
-export type AccordionContextState = {
+type AccordionContextState = Simplify<{
   accordionEntries: AccordionEntry[];
   defaultExpandedGroupNames: GroupName[];
   setAccordionEntries: (entries: AccordionEntry[]) => void;
-};
+}>;
 
-const AccordionContext = createContext<AccordionContextState>({
+export const AccordionContext = createContext<AccordionContextState>({
   accordionEntries: [],
   defaultExpandedGroupNames: [],
   setAccordionEntries: () => {},
@@ -30,7 +33,7 @@ export default function Accordion({
   groupedEntries,
   defaultExpandedGroupNames = [],
   children,
-}: DetailsProps) {
+}: AccordionProps) {
   const [accordionEntries, setAccordionEntries] = useState<AccordionEntry[]>(() =>
     groupedEntries.map(({ name, entries }) => ({
       name,
@@ -84,7 +87,7 @@ export default function Accordion({
   );
 
   return (
-    <AccordionContext.Provider value={accordionContextValues}>
+    <AccordionContext value={accordionContextValues}>
       <div className={detailsWrapper}>
         <AccordionToggleButtons
           accordionEntries={accordionEntries}
@@ -99,6 +102,6 @@ export default function Accordion({
           onAccordionEntryToggle={handleAccordionEntryToggle}
         />
       </div>
-    </AccordionContext.Provider>
+    </AccordionContext>
   );
 }
