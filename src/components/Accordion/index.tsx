@@ -1,4 +1,4 @@
-import { useState, useMemo, createContext, type PropsWithChildren } from 'react';
+import { useState, useMemo, createContext, useReducer, type PropsWithChildren } from 'react';
 import type { Simplify } from 'type-fest';
 
 import AccordionDetails from './components/AccordionDetails';
@@ -20,14 +20,81 @@ type AccordionEntry = Simplify<
 type AccordionContextState = Simplify<{
   accordionEntries: AccordionEntry[];
   defaultExpandedGroupNames: GroupName[];
-  setAccordionEntries: (entries: AccordionEntry[]) => void;
 }>;
 
 export const AccordionContext = createContext<AccordionContextState>({
   accordionEntries: [],
   defaultExpandedGroupNames: [],
-  setAccordionEntries: () => {},
 });
+
+const reducerActionTypes = {
+  TOGGLE_ACCORDION_ENTRY: 'TOGGLE_ACCORDION_ENTRY',
+  EXPAND_ALL_ACCORDION_ENTRIES: 'EXPAND_ALL_ACCORDION_ENTRIES',
+  COLLAPSE_ALL_ACCORDION_ENTRIES: 'COLLAPSE_ALL_ACCORDION_ENTRIES',
+  EXPAND_ACCORDION_ENTRY: 'EXPAND_ACCORDION_ENTRY',
+  COLLAPSE_ACCORDION_ENTRY: 'COLLAPSE_ACCORDION_ENTRY',
+} as const;
+
+type ReducerActionNames = keyof typeof reducerActionTypes;
+
+type ReducerPayloads = {
+  [reducerActionTypes.TOGGLE_ACCORDION_ENTRY]: { name: string };
+  [reducerActionTypes.EXPAND_ALL_ACCORDION_ENTRIES]: never;
+  [reducerActionTypes.COLLAPSE_ALL_ACCORDION_ENTRIES]: never;
+  [reducerActionTypes.EXPAND_ACCORDION_ENTRY]: { name: string; name2: boolean };
+  [reducerActionTypes.COLLAPSE_ACCORDION_ENTRY]: { name: string };
+};
+
+type ReducerAction<T extends ReducerActionNames> = {
+  type: T;
+  payload: ReducerPayloads[T];
+};
+
+const acccordionReducer = (
+  state: AccordionContextState,
+  action: ReducerAction<ReducerActionNames>,
+): AccordionContextState => {
+  switch (action.type) {
+    case 'TOGGLE_ACCORDION_ENTRY': {
+      const payload = action.payload as ReducerPayloads[typeof action.type]; // workaround
+
+      return {
+        ...state,
+      };
+    }
+    case 'COLLAPSE_ACCORDION_ENTRY': {
+      const payload = action.payload as ReducerPayloads[typeof action.type];
+
+      return {
+        ...state,
+      };
+    }
+    case 'COLLAPSE_ALL_ACCORDION_ENTRIES': {
+      const payload = action.payload as ReducerPayloads[typeof action.type];
+
+      return {
+        ...state,
+      };
+    }
+    case 'EXPAND_ACCORDION_ENTRY': {
+      const payload = action.payload as ReducerPayloads[typeof action.type];
+
+      return {
+        ...state,
+      };
+    }
+    case 'EXPAND_ALL_ACCORDION_ENTRIES': {
+      const payload = action.payload as ReducerPayloads[typeof action.type];
+
+      return {
+        ...state,
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+};
 
 export default function Accordion({
   groupedEntries,
