@@ -1,30 +1,22 @@
-import { use } from 'react';
-import type { Simplify } from 'type-fest';
+import { use, type PropsWithChildren } from 'react';
+// import type { Simplify } from 'type-fest';
 
 import { AccordionContext } from '../../index.tsx';
 import { toggleButtonGroup, toggleButton } from './styles.css.ts';
 import type { GroupedEntry, GroupName } from '../../../../types.ts';
 
-type AccordionEntry = Simplify<
-  GroupedEntry & {
-    isExpanded: boolean;
-  }
->;
+// type AccordionEntry = Simplify<
+//   GroupedEntry & {
+//     isExpanded: boolean;
+//   }
+// >;
 
-type AccordionToggleButtonsProps = {
-  accordionEntries: AccordionEntry[];
-  namesOfExpandedGroups: GroupName[];
-  onExpandButtonClick: VoidFunction;
-  onCollapseButtonClick: VoidFunction;
-};
+type AccordionToggleButtonsProps = PropsWithChildren;
+// onExpandButtonClick: VoidFunction;
+// onCollapseButtonClick: VoidFunction;
 
-export default function AccordionToggleButtons({
-  accordionEntries,
-  namesOfExpandedGroups,
-  onExpandButtonClick,
-  onCollapseButtonClick,
-}: AccordionToggleButtonsProps) {
-  const context = use(AccordionContext);
+export default function AccordionToggleButtons({ children }: AccordionToggleButtonsProps) {
+  const { accordionEntries, namesOfExpandedGroups } = use(AccordionContext);
 
   const hasCollapsibleEntries = Boolean(namesOfExpandedGroups.length);
   const hasExpandableEntries = namesOfExpandedGroups.length !== accordionEntries.length;
@@ -34,14 +26,15 @@ export default function AccordionToggleButtons({
       return;
     }
 
-    onCollapseButtonClick();
+    // onCollapseButtonClick();
   };
 
   const handleExpandButtonClick = (): void => {
     if (!hasExpandableEntries) {
       return;
     }
-    onExpandButtonClick();
+
+    // onExpandButtonClick();
   };
 
   return (
