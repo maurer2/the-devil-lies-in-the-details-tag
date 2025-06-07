@@ -16,3 +16,7 @@ globalStyle(':root', {
 globalStyle('body', {
   minHeight: ['100vh', '100dvh'],
 });
+
+globalStyle('p', {
+  marginTop: 0,
+});
