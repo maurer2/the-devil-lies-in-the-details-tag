@@ -1,9 +1,10 @@
-// import type { MouseEvent } from 'react';
 import { catNames } from 'cat-names';
 
-import { wrapper, pageTitle, groupToggles, groupToggle } from './app.css.ts';
 import Accordion from './components/Accordion';
+import Menu from './components/Menu';
 import DebugList from './components/DebugList';
+
+import { wrapper, pageTitle } from './app.css.ts';
 import type { GroupedEntry } from './types.ts';
 
 const hasEntriesInGroup = <T extends Array<unknown>>(
@@ -18,25 +19,11 @@ const catNamesGroupedByFirstLetter = Object.entries(
 
 const defaultExpandedGroupNames = ['B', 'C', 'F'];
 
-function App() {
+export default function App() {
   const groupedEntries: GroupedEntry[] = catNamesGroupedByFirstLetter.map(([name, entries]) => ({
     name,
     entries,
   }));
-
-  // const handleGroupToggleClick =
-  //   (name: GroupName) =>
-  //   (event: MouseEvent<HTMLButtonElement>): void => {
-  //     event.preventDefault();
-
-  //     if (selectedGroups.includes(name)) {
-  //       const newSelectedGroups = selectedGroups.filter((groupEntry) => groupEntry !== name);
-
-  //       return setSelectedGroups(newSelectedGroups);
-  //     }
-
-  //     return setSelectedGroups(selectedGroups.concat(name));
-  //   };
 
   // ensure that Accordion will be reset when defaultExpandedGroupNames are updated so that state initializer function is run again with current data
   const accordionComponentKey = JSON.stringify(defaultExpandedGroupNames);
@@ -50,24 +37,13 @@ function App() {
         component state and the DOM.
       </p>
 
-      <div className={groupToggles} role="group" aria-label="Accordion group toggles">
-        {groupedEntries.map(({ name }) => (
-          <button
-            key={name}
-            className={groupToggle}
-            // onClick={handleGroupToggleClick(name)}
-            // aria-pressed={selectedGroups.includes(name)}
-          >
-            {name}
-          </button>
-        ))}
-      </div>
-
       <Accordion
         groupedEntries={groupedEntries}
         key={accordionComponentKey}
         defaultExpandedGroupNames={defaultExpandedGroupNames}
-      />
+      >
+        <Menu />
+      </Accordion>
 
       <hr />
 
@@ -75,5 +51,3 @@ function App() {
     </main>
   );
 }
-
-export default App;

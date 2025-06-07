@@ -6,7 +6,6 @@ import AccordionDispatchContext from '../../contexts/AccordionDispatchContext';
 import { detailsWrapper, details, summary, content, debugString } from './styles.css.ts';
 import type { GroupName } from '../../../../types.ts';
 
-// onAccordionEntryToggle: (name: GroupName, isExpanded: boolean) => void;
 type AccordionDetailsProps = PropsWithChildren;
 
 const listFormatter = new Intl.ListFormat('en-GB', {
