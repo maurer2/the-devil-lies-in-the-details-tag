@@ -3,8 +3,9 @@ import type { Simplify } from 'type-fest';
 
 import AccordionStateContext from '../AccordionStateContext';
 import AccordionDispatchContext from '../AccordionDispatchContext';
+import { accordionReducer } from './reducers.ts';
 
-import type { GroupedEntry, GroupName, AccordionEntry } from '../../../../types.ts';
+import type { GroupedEntry, GroupName } from '../../../../types.ts';
 
 type AccordionContextProviderProps = PropsWithChildren<{
   groupedEntries: GroupedEntry[];
@@ -14,7 +15,7 @@ type AccordionContextProviderProps = PropsWithChildren<{
 type AccordionStateContextType = ContextType<typeof AccordionStateContext>;
 // type AccordionDispatchContextType = ContextType<typeof AccordionDispatchContext>;
 
-const reducerActionTypes = {
+const accordionReducerActionTypes = {
   EXPAND_ACCORDION_ENTRY: 'EXPAND_ACCORDION_ENTRY',
   COLLAPSE_ACCORDION_ENTRY: 'COLLAPSE_ACCORDION_ENTRY',
   TOGGLE_ACCORDION_ENTRY: 'TOGGLE_ACCORDION_ENTRY',
@@ -22,136 +23,34 @@ const reducerActionTypes = {
   COLLAPSE_ALL_ACCORDION_ENTRIES: 'COLLAPSE_ALL_ACCORDION_ENTRIES',
 } as const;
 
-type ReducerActionPayloads = {
-  [reducerActionTypes.EXPAND_ACCORDION_ENTRY]: { name: string };
-  [reducerActionTypes.COLLAPSE_ACCORDION_ENTRY]: { name: string };
-  [reducerActionTypes.TOGGLE_ACCORDION_ENTRY]: { name: GroupName; isExpanded: boolean };
-  [reducerActionTypes.EXPAND_ALL_ACCORDION_ENTRIES]: undefined;
-  [reducerActionTypes.COLLAPSE_ALL_ACCORDION_ENTRIES]: undefined;
+type AccordionReducerActionPayloads = {
+  [accordionReducerActionTypes.EXPAND_ACCORDION_ENTRY]: { name: string };
+  [accordionReducerActionTypes.COLLAPSE_ACCORDION_ENTRY]: { name: string };
+  [accordionReducerActionTypes.TOGGLE_ACCORDION_ENTRY]: { name: GroupName; isExpanded: boolean };
+  [accordionReducerActionTypes.EXPAND_ALL_ACCORDION_ENTRIES]: undefined;
+  [accordionReducerActionTypes.COLLAPSE_ALL_ACCORDION_ENTRIES]: undefined;
 };
 
-type ReducerActionNames = Simplify<keyof ReducerActionPayloads>;
+type AccordionReducerActionNames = Simplify<keyof AccordionReducerActionPayloads>;
 
-export type ReducerActions = {
-  [K in ReducerActionNames]: ReducerActionPayloads[K] extends undefined
+export type AccordionReducerActions = {
+  [K in AccordionReducerActionNames]: AccordionReducerActionPayloads[K] extends undefined
     ? {
         type: K;
       }
     : {
         type: K;
-        payload: ReducerActionPayloads[K];
+        payload: AccordionReducerActionPayloads[K];
       };
-}[ReducerActionNames];
-
-// todo: better approach for derived state
-const getNamesOfExpandedAccordionEntries = (accordionEntries: AccordionEntry[]) => {
-  return accordionEntries.filter(({ isExpanded }) => isExpanded).map(({ name }) => name);
-};
-
-const accordionReducer = (
-  state: AccordionStateContextType,
-  action: ReducerActions,
-): AccordionStateContextType => {
-  const { accordionEntries } = state;
-
-  switch (action.type) {
-    case 'EXPAND_ACCORDION_ENTRY': {
-      const { name } = action.payload;
-
-      const newAccordionEntries = accordionEntries.map((entry) =>
-        entry.name === name
-          ? {
-              ...entry,
-              isExpanded: true,
-            }
-          : entry,
-      );
-      const namesOfExpandedGroups = getNamesOfExpandedAccordionEntries(newAccordionEntries);
-
-      return {
-        ...state,
-        accordionEntries: newAccordionEntries,
-        namesOfExpandedGroups,
-      };
-    }
-    case 'COLLAPSE_ACCORDION_ENTRY': {
-      const { name } = action.payload;
-
-      const newAccordionEntries = accordionEntries.map((entry) =>
-        entry.name === name
-          ? {
-              ...entry,
-              isExpanded: false,
-            }
-          : entry,
-      );
-      const namesOfExpandedGroups = getNamesOfExpandedAccordionEntries(newAccordionEntries);
-
-      return {
-        ...state,
-        accordionEntries: newAccordionEntries,
-        namesOfExpandedGroups,
-      };
-    }
-    case 'TOGGLE_ACCORDION_ENTRY': {
-      const { name, isExpanded } = action.payload;
-
-      const newAccordionEntries = accordionEntries.map((entry) =>
-        entry.name === name
-          ? {
-              ...entry,
-              isExpanded,
-            }
-          : entry,
-      );
-      const namesOfExpandedGroups = getNamesOfExpandedAccordionEntries(newAccordionEntries);
-
-      return {
-        ...state,
-        accordionEntries: newAccordionEntries,
-        namesOfExpandedGroups,
-      };
-    }
-    case 'EXPAND_ALL_ACCORDION_ENTRIES': {
-      const newAccordionEntries = accordionEntries.map((entry) => ({
-        ...entry,
-        isExpanded: true,
-      }));
-      const namesOfExpandedGroups = getNamesOfExpandedAccordionEntries(newAccordionEntries);
-
-      return {
-        ...state,
-        accordionEntries: newAccordionEntries,
-        namesOfExpandedGroups,
-      };
-    }
-    case 'COLLAPSE_ALL_ACCORDION_ENTRIES': {
-      const newAccordionEntries = accordionEntries.map((entry) => ({
-        ...entry,
-        isExpanded: false,
-      }));
-      const namesOfExpandedGroups = getNamesOfExpandedAccordionEntries(newAccordionEntries);
-
-      return {
-        ...state,
-        accordionEntries: newAccordionEntries,
-        namesOfExpandedGroups,
-      };
-    }
-
-    default: {
-      return state;
-    }
-  }
-};
+}[AccordionReducerActionNames];
 
 export default function AccordionContextProvider({
   groupedEntries,
   defaultExpandedGroupNames = [],
   children,
 }: AccordionContextProviderProps) {
-  // https://tkdodo.eu/blog/use-state-vs-use-reducer#passing-props-to-reducers
-  // https://overreacted.io/a-complete-guide-to-useeffect/#why-usereducer-is-the-cheat-mode-of-hooks
+  // todo: https://tkdodo.eu/blog/use-state-vs-use-reducer#passing-props-to-reducers
+  // todo: https://overreacted.io/a-complete-guide-to-useeffect/#why-usereducer-is-the-cheat-mode-of-hooks
   const [accordionState, dispatchAccordionAction] = useReducer(
     accordionReducer,
     {

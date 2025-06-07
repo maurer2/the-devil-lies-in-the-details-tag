@@ -18,6 +18,7 @@ export const toggleButton = style({
   cursor: 'pointer',
   transition: 'opacity 0.25s',
   flexBasis: '100%',
+  fontWeight: 600,
 
   selectors: {
     '&[aria-disabled=true]': {
