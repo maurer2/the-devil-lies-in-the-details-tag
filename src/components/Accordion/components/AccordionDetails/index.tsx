@@ -1,15 +1,10 @@
 import { use, type SyntheticEvent, type PropsWithChildren } from 'react';
-// import type { Simplify } from 'type-fest';
 
-import { AccordionContext } from '../../index.tsx';
+import AccordionStateContext from '../../contexts/AccordionStateContext';
+import AccordionDispatchContext from '../../contexts/AccordionDispatchContext';
+
 import { detailsWrapper, details, summary, content, debugString } from './styles.css.ts';
-import type { GroupedEntry, GroupName } from '../../../../types.ts';
-
-// type AccordionEntry = Simplify<
-//   GroupedEntry & {
-//     isExpanded: boolean;
-//   }
-// >;
+import type { GroupName } from '../../../../types.ts';
 
 // onAccordionEntryToggle: (name: GroupName, isExpanded: boolean) => void;
 type AccordionDetailsProps = PropsWithChildren;
@@ -20,7 +15,8 @@ const listFormatter = new Intl.ListFormat('en-GB', {
 });
 
 export default function AccordionDetails({ children }: AccordionDetailsProps) {
-  const { accordionEntries, namesOfExpandedGroups } = use(AccordionContext);
+  const { accordionEntries, namesOfExpandedGroups } = use(AccordionStateContext);
+  const dispatchAccordionAction = use(AccordionDispatchContext);
 
   // Note: onToggle fires on mount for details elements that are expanded by default
   // ToggleEventHandler<HTMLDetailsElement> causes TS error
