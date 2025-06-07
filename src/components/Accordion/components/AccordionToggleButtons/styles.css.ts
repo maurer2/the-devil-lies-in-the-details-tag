@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
 import roundWithFallback from '../../../../helpers/round-with-fallback/round-with-fallback';
+import { detailsWrapperContainer } from '../../styles.css';
 
 export const toggleButtonGroup = style({
   display: 'flex',
@@ -28,7 +29,7 @@ export const toggleButton = style({
   },
 
   '@container': {
-    ['detailsWrapperContainer (width > 400px)']: {
+    [`${detailsWrapperContainer} (width > 400px)`]: {
       flexBasis: 'auto',
     },
   },
