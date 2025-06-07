@@ -1,33 +1,26 @@
-import { use, type SyntheticEvent } from 'react';
-import type { Simplify } from 'type-fest';
+import { use, type SyntheticEvent, type PropsWithChildren } from 'react';
+// import type { Simplify } from 'type-fest';
 
 import { AccordionContext } from '../../index.tsx';
 import { detailsWrapper, details, summary, content, debugString } from './styles.css.ts';
 import type { GroupedEntry, GroupName } from '../../../../types.ts';
 
-type AccordionEntry = Simplify<
-  GroupedEntry & {
-    isExpanded: boolean;
-  }
->;
+// type AccordionEntry = Simplify<
+//   GroupedEntry & {
+//     isExpanded: boolean;
+//   }
+// >;
 
-type DetailsProps = {
-  accordionEntries: AccordionEntry[];
-  namesOfExpandedGroups: GroupName[];
-  onAccordionEntryToggle: (name: GroupName, isExpanded: boolean) => void;
-};
+// onAccordionEntryToggle: (name: GroupName, isExpanded: boolean) => void;
+type AccordionDetailsProps = PropsWithChildren;
 
 const listFormatter = new Intl.ListFormat('en-GB', {
   style: 'long',
   type: 'conjunction',
 });
 
-export default function AccordionDetails({
-  accordionEntries,
-  namesOfExpandedGroups,
-  onAccordionEntryToggle,
-}: DetailsProps) {
-  const context = use(AccordionContext);
+export default function AccordionDetails({ children }: AccordionDetailsProps) {
+  const { accordionEntries, namesOfExpandedGroups } = use(AccordionContext);
 
   // Note: onToggle fires on mount for details elements that are expanded by default
   // ToggleEventHandler<HTMLDetailsElement> causes TS error
@@ -44,7 +37,7 @@ export default function AccordionDetails({
       }
       console.info(`${name} was toggled to`, isExpanded ? 'open' : 'not open');
 
-      onAccordionEntryToggle(name, isExpanded);
+      // onAccordionEntryToggle(name, isExpanded);
     };
 
   return (
