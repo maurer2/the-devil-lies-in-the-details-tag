@@ -1,8 +1,8 @@
 import { createContext, type ActionDispatch } from 'react';
 
-import type { ReducerActions } from '../AccordionContextProvider';
+import type { AccordionReducerActions } from '../AccordionContextProvider';
 
-type AccordionDispatchContextType = ActionDispatch<[action: ReducerActions]>; // todo type
+type AccordionDispatchContextType = ActionDispatch<[AccordionReducerActions]>;
 
 const AccordionDispatchContext = createContext<AccordionDispatchContextType>(() => {});
 
