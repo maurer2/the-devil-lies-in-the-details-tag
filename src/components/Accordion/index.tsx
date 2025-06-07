@@ -35,56 +35,62 @@ const reducerActionTypes = {
   COLLAPSE_ACCORDION_ENTRY: 'COLLAPSE_ACCORDION_ENTRY',
 } as const;
 
-type ReducerActionNames = keyof typeof reducerActionTypes;
-
 type ReducerPayloads = {
   [reducerActionTypes.TOGGLE_ACCORDION_ENTRY]: { name: string };
-  [reducerActionTypes.EXPAND_ALL_ACCORDION_ENTRIES]: never;
-  [reducerActionTypes.COLLAPSE_ALL_ACCORDION_ENTRIES]: never;
+  [reducerActionTypes.EXPAND_ALL_ACCORDION_ENTRIES]: undefined;
+  [reducerActionTypes.COLLAPSE_ALL_ACCORDION_ENTRIES]: undefined;
   [reducerActionTypes.EXPAND_ACCORDION_ENTRY]: { name: string; name2: boolean };
   [reducerActionTypes.COLLAPSE_ACCORDION_ENTRY]: { name: string };
 };
 
-type ReducerAction<T extends ReducerActionNames> = {
-  type: T;
-  payload: ReducerPayloads[T];
-};
+type ReducerActionNames = Simplify<keyof ReducerPayloads>;
+
+type ReducerActions = {
+  [K in ReducerActionNames]: ReducerPayloads[K] extends undefined
+    ? {
+        type: K;
+      }
+    : {
+        type: K;
+        payload: ReducerPayloads[K];
+      };
+}[ReducerActionNames];
 
 const acccordionReducer = (
   state: AccordionContextState,
-  action: ReducerAction<ReducerActionNames>,
+  action: ReducerActions,
 ): AccordionContextState => {
   switch (action.type) {
     case 'TOGGLE_ACCORDION_ENTRY': {
-      const payload = action.payload as ReducerPayloads[typeof action.type]; // workaround
+      const { payload } = action;
 
       return {
         ...state,
       };
     }
     case 'COLLAPSE_ACCORDION_ENTRY': {
-      const payload = action.payload as ReducerPayloads[typeof action.type];
+      const { payload } = action;
 
       return {
         ...state,
       };
     }
     case 'COLLAPSE_ALL_ACCORDION_ENTRIES': {
-      const payload = action.payload as ReducerPayloads[typeof action.type];
+      // const { payload } = action; // error
 
       return {
         ...state,
       };
     }
     case 'EXPAND_ACCORDION_ENTRY': {
-      const payload = action.payload as ReducerPayloads[typeof action.type];
+      const { payload } = action;
 
       return {
         ...state,
       };
     }
     case 'EXPAND_ALL_ACCORDION_ENTRIES': {
-      const payload = action.payload as ReducerPayloads[typeof action.type];
+      // const { payload } = action; // error
 
       return {
         ...state,
