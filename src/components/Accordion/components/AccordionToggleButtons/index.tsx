@@ -6,8 +6,6 @@ import AccordionDispatchContext from '../../contexts/AccordionDispatchContext';
 import { toggleButtonGroup, toggleButton } from './styles.css.ts';
 
 type AccordionToggleButtonsProps = PropsWithChildren;
-// onExpandButtonClick: VoidFunction;
-// onCollapseButtonClick: VoidFunction;
 
 export default function AccordionToggleButtons({ children }: AccordionToggleButtonsProps) {
   const { accordionEntries, namesOfExpandedGroups } = use(AccordionStateContext);
@@ -24,8 +22,6 @@ export default function AccordionToggleButtons({ children }: AccordionToggleButt
     dispatchAccordionAction({
       type: 'COLLAPSE_ALL_ACCORDION_ENTRIES',
     });
-
-    // onCollapseButtonClick();
   };
 
   const handleExpandButtonClick = (): void => {
@@ -36,8 +32,6 @@ export default function AccordionToggleButtons({ children }: AccordionToggleButt
     dispatchAccordionAction({
       type: 'EXPAND_ALL_ACCORDION_ENTRIES',
     });
-
-    // onExpandButtonClick();
   };
 
   return (
