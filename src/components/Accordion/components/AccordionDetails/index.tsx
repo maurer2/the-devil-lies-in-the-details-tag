@@ -33,7 +33,13 @@ export default function AccordionDetails({ children }: AccordionDetailsProps) {
       }
       console.info(`${name} was toggled to`, isExpanded ? 'open' : 'not open');
 
-      // onAccordionEntryToggle(name, isExpanded);
+      dispatchAccordionAction({
+        type: 'TOGGLE_ACCORDION_ENTRY',
+        payload: {
+          name,
+          isExpanded,
+        },
+      });
     };
 
   return (

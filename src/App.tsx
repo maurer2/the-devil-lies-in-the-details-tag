@@ -4,7 +4,7 @@ import { catNames } from 'cat-names';
 import { wrapper, pageTitle, groupToggles, groupToggle } from './app.css.ts';
 import Accordion from './components/Accordion';
 import DebugList from './components/DebugList';
-import type { GroupedEntry, GroupName } from './types.ts';
+import type { GroupedEntry } from './types.ts';
 
 const hasEntriesInGroup = <T extends Array<unknown>>(
   entry: [PropertyKey, T | undefined],
@@ -15,6 +15,8 @@ const hasEntriesInGroup = <T extends Array<unknown>>(
 const catNamesGroupedByFirstLetter = Object.entries(
   Object.groupBy(catNames, (name) => name[0].toUpperCase()),
 ).filter((entry) => hasEntriesInGroup(entry));
+
+const defaultExpandedGroupNames = ['B', 'C', 'F'];
 
 function App() {
   const groupedEntries: GroupedEntry[] = catNamesGroupedByFirstLetter.map(([name, entries]) => ({
@@ -36,8 +38,8 @@ function App() {
   //     return setSelectedGroups(selectedGroups.concat(name));
   //   };
 
-  // ensure that Accordion will be reset when selectedGroups are updated so that usesState initializer function is run again with current data
-  const groupedEntriesKey = JSON.stringify(groupedEntries);
+  // ensure that Accordion will be reset when defaultExpandedGroupNames are updated so that state initializer function is run again with current data
+  const accordionComponentKey = JSON.stringify(defaultExpandedGroupNames);
 
   return (
     <main className={wrapper}>
@@ -63,8 +65,8 @@ function App() {
 
       <Accordion
         groupedEntries={groupedEntries}
-        key={groupedEntriesKey}
-        defaultExpandedGroupNames={['B']}
+        key={accordionComponentKey}
+        defaultExpandedGroupNames={defaultExpandedGroupNames}
       />
 
       <hr />
