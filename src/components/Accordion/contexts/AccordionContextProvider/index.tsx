@@ -52,21 +52,45 @@ const accordionReducer = (
   state: AccordionStateContextType,
   action: ReducerActions,
 ): AccordionStateContextType => {
-  const { accordionEntries, defaultExpandedGroupNames } = state;
+  const { accordionEntries } = state;
 
   switch (action.type) {
     case 'EXPAND_ACCORDION_ENTRY': {
-      const { payload } = action;
+      const { name } = action.payload;
+
+      const newAccordionEntries = accordionEntries.map((entry) =>
+        entry.name === name
+          ? {
+              ...entry,
+              isExpanded: true,
+            }
+          : entry,
+      );
+      const namesOfExpandedGroups = getNamesOfExpandedAccordionEntries(newAccordionEntries);
 
       return {
         ...state,
+        accordionEntries: newAccordionEntries,
+        namesOfExpandedGroups,
       };
     }
     case 'COLLAPSE_ACCORDION_ENTRY': {
-      const { payload } = action;
+      const { name } = action.payload;
+
+      const newAccordionEntries = accordionEntries.map((entry) =>
+        entry.name === name
+          ? {
+              ...entry,
+              isExpanded: false,
+            }
+          : entry,
+      );
+      const namesOfExpandedGroups = getNamesOfExpandedAccordionEntries(newAccordionEntries);
 
       return {
         ...state,
+        accordionEntries: newAccordionEntries,
+        namesOfExpandedGroups,
       };
     }
     case 'TOGGLE_ACCORDION_ENTRY': {
@@ -132,7 +156,6 @@ export default function AccordionContextProvider({
     accordionReducer,
     {
       accordionEntries: [],
-      defaultExpandedGroupNames: [],
       namesOfExpandedGroups: [],
     },
     (initialAccordionState) => {
@@ -144,7 +167,6 @@ export default function AccordionContextProvider({
 
       return {
         accordionEntries,
-        defaultExpandedGroupNames: initialAccordionState.defaultExpandedGroupNames,
         namesOfExpandedGroups: initialAccordionState.namesOfExpandedGroups,
       };
     },

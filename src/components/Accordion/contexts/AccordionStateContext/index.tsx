@@ -5,13 +5,11 @@ import type { GroupName, AccordionEntry } from '../../../../types.ts';
 
 type AccordionStateContextType = Simplify<{
   accordionEntries: AccordionEntry[];
-  defaultExpandedGroupNames: GroupName[];
-  namesOfExpandedGroups: string[];
+  namesOfExpandedGroups: GroupName[];
 }>;
 
 const AccordionStateContext = createContext<AccordionStateContextType>({
   accordionEntries: [],
-  defaultExpandedGroupNames: [],
   namesOfExpandedGroups: [],
 });
 
