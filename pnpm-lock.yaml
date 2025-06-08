@@ -8,15 +8,45 @@ importers:
 
   .:
     dependencies:
+      '@eslint/js':
+        specifier: ^9.25.0
+        version: 9.27.0
+      '@types/react':
+        specifier: ^19.1.2
+        version: 19.1.6
+      '@types/react-dom':
+        specifier: ^19.1.2
+        version: 19.1.5(@types/react@19.1.6)
       '@vanilla-extract/css':
         specifier: ^1.17.2
         version: 1.17.2
+      '@vanilla-extract/recipes':
+        specifier: ^0.5.6
+        version: 0.5.6(@vanilla-extract/css@1.17.2)
       '@vanilla-extract/vite-plugin':
         specifier: ^5.0.3
         version: 5.0.3(@types/node@22.15.24)(vite@6.3.5(@types/node@22.15.24))
+      '@vitejs/plugin-react':
+        specifier: ^4.4.1
+        version: 4.5.0(vite@6.3.5(@types/node@22.15.24))
       cat-names:
         specifier: ^4.0.0
         version: 4.0.0
+      es-toolkit:
+        specifier: ^1.39.3
+        version: 1.39.3
+      eslint:
+        specifier: ^9.25.0
+        version: 9.27.0
+      eslint-plugin-react-hooks:
+        specifier: ^5.2.0
+        version: 5.2.0(eslint@9.27.0)
+      eslint-plugin-react-refresh:
+        specifier: ^0.4.19
+        version: 0.4.20(eslint@9.27.0)
+      globals:
+        specifier: ^16.0.0
+        version: 16.2.0
       modern-normalize:
         specifier: ^3.0.1
         version: 3.0.1
@@ -32,31 +62,6 @@ importers:
       type-fest:
         specifier: ^4.41.0
         version: 4.41.0
-    devDependencies:
-      '@eslint/js':
-        specifier: ^9.25.0
-        version: 9.27.0
-      '@types/react':
-        specifier: ^19.1.2
-        version: 19.1.6
-      '@types/react-dom':
-        specifier: ^19.1.2
-        version: 19.1.5(@types/react@19.1.6)
-      '@vitejs/plugin-react':
-        specifier: ^4.4.1
-        version: 4.5.0(vite@6.3.5(@types/node@22.15.24))
-      eslint:
-        specifier: ^9.25.0
-        version: 9.27.0
-      eslint-plugin-react-hooks:
-        specifier: ^5.2.0
-        version: 5.2.0(eslint@9.27.0)
-      eslint-plugin-react-refresh:
-        specifier: ^0.4.19
-        version: 0.4.20(eslint@9.27.0)
-      globals:
-        specifier: ^16.0.0
-        version: 16.2.0
       typescript:
         specifier: ~5.8.3
         version: 5.8.3
@@ -607,6 +612,11 @@ packages:
   '@vanilla-extract/private@1.0.7':
     resolution: {integrity: sha512-v9Yb0bZ5H5Kr8ciwPXyEToOFD7J/fKKH93BYP7NCSZg02VYsA/pNFrLeVDJM2OO/vsygduPKuiEI6ORGQ4IcBw==}
 
+  '@vanilla-extract/recipes@0.5.6':
+    resolution: {integrity: sha512-4gEshTUThPBd8EzfWantHs8LLB1WxDmLnTnOqHWqBxDDcb52YId0l5Sc6Iw90zV8ibwSRdGowQsUxDxO8CKo7g==}
+    peerDependencies:
+      '@vanilla-extract/css': ^1.0.0
+
   '@vanilla-extract/vite-plugin@5.0.3':
     resolution: {integrity: sha512-yivg/0e08FOu44U/bBzPRYYGeG3QtKTlMvxVeAkuAWyXBZ9mj2GjMCbgFLmChL7iIcV/hNp7DoLxBI9bdwJgLg==}
     peerDependencies:
@@ -740,6 +750,9 @@ packages:
 
   es-module-lexer@1.7.0:
     resolution: {integrity: sha512-jEQoCwk8hyb2AZziIOLhDqpm5+2ww5uIE6lkO/6jcOCusfk6LhMHpXXfBLXTZ7Ydyt0j4VoUQv6uGNYbdW+kBA==}
+
+  es-toolkit@1.39.3:
+    resolution: {integrity: sha512-Qb/TCFCldgOy8lZ5uC7nLGdqJwSabkQiYQShmw4jyiPk1pZzaYWTwaYKYP7EgLccWYgZocMrtItrwh683voaww==}
 
   esbuild@0.25.5:
     resolution: {integrity: sha512-P8OtKZRv/5J5hhz0cUAdu/cLuPIKXpQl1R9pZtvmHWQvrAUVd0UNIPT4IB4W3rNOqVO0rlqHmCIbSwxh/c9yUQ==}
@@ -1799,6 +1812,10 @@ snapshots:
 
   '@vanilla-extract/private@1.0.7': {}
 
+  '@vanilla-extract/recipes@0.5.6(@vanilla-extract/css@1.17.2)':
+    dependencies:
+      '@vanilla-extract/css': 1.17.2
+
   '@vanilla-extract/vite-plugin@5.0.3(@types/node@22.15.24)(vite@6.3.5(@types/node@22.15.24))':
     dependencies:
       '@vanilla-extract/compiler': 0.2.0(@types/node@22.15.24)
@@ -1927,6 +1944,8 @@ snapshots:
   electron-to-chromium@1.5.161: {}
 
   es-module-lexer@1.7.0: {}
+
+  es-toolkit@1.39.3: {}
 
   esbuild@0.25.5:
     optionalDependencies:

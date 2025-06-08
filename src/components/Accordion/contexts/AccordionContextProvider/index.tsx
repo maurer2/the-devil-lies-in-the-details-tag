@@ -1,4 +1,4 @@
-import { useMemo, useReducer, type PropsWithChildren, type ContextType } from 'react';
+import { useReducer, type PropsWithChildren, type ContextType } from 'react';
 import type { Simplify } from 'type-fest';
 
 import AccordionStateContext from '../AccordionStateContext';
@@ -53,31 +53,27 @@ export default function AccordionContextProvider({
   // todo: https://overreacted.io/a-complete-guide-to-useeffect/#why-usereducer-is-the-cheat-mode-of-hooks
   const [accordionState, dispatchAccordionAction] = useReducer(
     accordionReducer,
-    {
-      accordionEntries: [],
-      namesOfExpandedGroups: [],
-    },
-    (initialAccordionState) => {
+    undefined,
+    (): AccordionStateContextType => {
       const accordionEntries = groupedEntries.map(({ name, entries }) => ({
         name,
         entries,
         isExpanded: defaultExpandedGroupNames.includes(name),
       }));
 
+      const namesOfExpandedGroups = accordionEntries
+        .filter(({ isExpanded }) => isExpanded)
+        .map(({ name }) => name);
+
       return {
         accordionEntries,
-        namesOfExpandedGroups: initialAccordionState.namesOfExpandedGroups,
+        namesOfExpandedGroups,
       };
     },
   );
 
-  const accordionStateContextValues = useMemo<AccordionStateContextType>(
-    () => accordionState,
-    [accordionState],
-  );
-
   return (
-    <AccordionStateContext value={accordionStateContextValues}>
+    <AccordionStateContext value={accordionState}>
       <AccordionDispatchContext value={dispatchAccordionAction}>
         {children}
       </AccordionDispatchContext>

@@ -1,11 +1,13 @@
+import { useState } from 'react';
 import { catNames } from 'cat-names';
+import { sampleSize, randomInt } from 'es-toolkit';
 
 import Accordion from './components/Accordion';
 import Menu from './components/Menu';
 import DebugList from './components/DebugList';
 
-import { wrapper, pageTitle } from './app.css.ts';
-import type { GroupedEntry } from './types.ts';
+import { wrapper, pageTitle, toggleButton } from './app.css.ts';
+import type { GroupName, GroupedEntry } from './types.ts';
 
 const hasEntriesInGroup = <T extends Array<unknown>>(
   entry: [PropertyKey, T | undefined],
@@ -17,13 +19,26 @@ const catNamesGroupedByFirstLetter = Object.entries(
   Object.groupBy(catNames, (name) => name[0].toUpperCase()),
 ).filter((entry) => hasEntriesInGroup(entry));
 
-const defaultExpandedGroupNames = ['B', 'C', 'F'];
+const groupedEntries: GroupedEntry[] = catNamesGroupedByFirstLetter.map(([name, entries]) => ({
+  name,
+  entries,
+}));
 
 export default function App() {
-  const groupedEntries: GroupedEntry[] = catNamesGroupedByFirstLetter.map(([name, entries]) => ({
-    name,
-    entries,
-  }));
+  const [defaultExpandedGroupNames, setDefaultExpandedGroupNames] = useState<GroupName[]>(() => [
+    groupedEntries[1].name,
+    groupedEntries[2].name,
+    groupedEntries[3].name,
+  ]);
+
+  const handleButtonClick = () => {
+    const numberOfEntries = randomInt(1, groupedEntries.length);
+    const newDefaultExpandedGroupEntries = sampleSize(groupedEntries, numberOfEntries).map(
+      ({ name }) => name,
+    );
+
+    setDefaultExpandedGroupNames(newDefaultExpandedGroupEntries);
+  };
 
   // ensure that Accordion will be reset when defaultExpandedGroupNames are updated so that state initializer function is run again with current data
   const accordionComponentKey = JSON.stringify(defaultExpandedGroupNames);
@@ -36,6 +51,10 @@ export default function App() {
         Searching for <span>Abby</span> when accordion is closed to see a state mismatch between
         component state and the DOM.
       </p>
+
+      <button className={toggleButton} onClick={handleButtonClick} type="button">
+        Random default expanded elements
+      </button>
 
       <Accordion
         groupedEntries={groupedEntries}
