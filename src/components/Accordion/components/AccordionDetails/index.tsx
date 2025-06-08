@@ -13,6 +13,7 @@ const listFormatter = new Intl.ListFormat('en-GB', {
   type: 'conjunction',
 });
 
+// @ts-expect-error no-unused-vars
 export default function AccordionDetails({ children }: AccordionDetailsProps) {
   const { accordionEntries, namesOfExpandedGroups } = use(AccordionStateContext);
   const dispatchAccordionAction = use(AccordionDispatchContext);

@@ -2,35 +2,22 @@ import { style } from '@vanilla-extract/css';
 
 import roundWithFallback from '../../../../helpers/round-with-fallback/round-with-fallback';
 import { detailsWrapperContainer } from '../../styles.css';
+import { varButtonFlexBasis } from '../../../Button/styles.css.ts';
 
 export const toggleButtonGroup = style({
   display: 'flex',
-  gap: roundWithFallback('calc(var(--spacing-default) * 1)'),
   marginBottom: roundWithFallback('calc(var(--spacing-default) * 1)'),
   flexWrap: 'wrap',
-});
+  gap: roundWithFallback('calc(var(--spacing-default) * 1)'),
 
-export const toggleButton = style({
-  paddingInline: roundWithFallback('calc(var(--spacing-default) * 1)'),
-  paddingBlock: roundWithFallback('calc(var(--spacing-default) * 0.75)'),
-  border: '1px solid var(--color-primary)',
-  backgroundColor: 'var(--color-secondary)',
-  opacity: 1,
-  cursor: 'pointer',
-  transition: 'opacity 0.25s',
-  flexBasis: '100%',
-  fontWeight: 600,
-
-  selectors: {
-    '&[aria-disabled=true]': {
-      opacity: 0.25,
-      cursor: 'not-allowed',
-    },
+  // size prop needs to be set to "dynamic"
+  vars: {
+    [varButtonFlexBasis]: '100%',
   },
 
   '@container': {
-    [`${detailsWrapperContainer} (width > 400px)`]: {
-      flexBasis: 'auto',
+    [`${detailsWrapperContainer} (width > 384px)`]: {
+      vars: { [varButtonFlexBasis]: 'auto' },
     },
   },
 });

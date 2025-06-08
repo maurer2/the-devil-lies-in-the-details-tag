@@ -2,11 +2,13 @@ import { use, type PropsWithChildren } from 'react';
 
 import AccordionStateContext from '../../contexts/AccordionStateContext';
 import AccordionDispatchContext from '../../contexts/AccordionDispatchContext';
+import Button from '../../../Button/index.tsx';
 
-import { toggleButtonGroup, toggleButton } from './styles.css.ts';
+import { toggleButtonGroup } from './styles.css.ts';
 
 type AccordionToggleButtonsProps = PropsWithChildren;
 
+// @ts-expect-error no-unused-vars
 export default function AccordionToggleButtons({ children }: AccordionToggleButtonsProps) {
   const { accordionEntries, namesOfExpandedGroups } = use(AccordionStateContext);
   const dispatchAccordionAction = use(AccordionDispatchContext);
@@ -36,24 +38,26 @@ export default function AccordionToggleButtons({ children }: AccordionToggleButt
 
   return (
     <div className={toggleButtonGroup} role="group" aria-label="Collapse and Expand buttons">
-      <button
+      <Button
         type="button"
-        className={toggleButton}
+        state={!hasCollapsibleEntries ? 'disabled' : 'default'}
+        size="dynamic"
         onClick={handleCollapseButtonClick}
         aria-disabled={!hasCollapsibleEntries}
         aria-label="Collapse all entries"
       >
         Collapse
-      </button>
-      <button
+      </Button>
+      <Button
         type="button"
-        className={toggleButton}
+        state={!hasExpandableEntries ? 'disabled' : 'default'}
+        size="dynamic"
         onClick={handleExpandButtonClick}
         aria-disabled={!hasExpandableEntries}
         aria-label="Expand all entries"
       >
         Expand
-      </button>
+      </Button>
     </div>
   );
 }

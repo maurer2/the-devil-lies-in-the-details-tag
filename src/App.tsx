@@ -5,8 +5,9 @@ import { sampleSize, randomInt } from 'es-toolkit';
 import Accordion from './components/Accordion';
 import Menu from './components/Menu';
 import DebugList from './components/DebugList';
+import Button from './components/Button';
 
-import { wrapper, pageTitle, toggleButton } from './app.css.ts';
+import { wrapper, pageTitle, buttonGroup } from './app.css.ts';
 import type { GroupName, GroupedEntry } from './types.ts';
 
 const hasEntriesInGroup = <T extends Array<unknown>>(
@@ -52,9 +53,11 @@ export default function App() {
         component state and the DOM.
       </p>
 
-      <button className={toggleButton} onClick={handleButtonClick} type="button">
-        Random default expanded elements
-      </button>
+      <div className={buttonGroup}>
+        <Button onClick={handleButtonClick} type="button">
+          Random default expanded elements
+        </Button>
+      </div>
 
       <Accordion
         groupedEntries={groupedEntries}

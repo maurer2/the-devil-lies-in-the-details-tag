@@ -9,20 +9,3 @@ export const menu = style({
   gap: roundWithFallback('calc(var(--spacing-default) * 0.75)'),
   textAlign: 'center',
 });
-
-export const menuToggle = style({
-  paddingInline: roundWithFallback('calc(var(--spacing-default) * 1)'),
-  paddingBlock: roundWithFallback('calc(var(--spacing-default) * 0.75)'),
-  border: '1px solid var(--color-primary)',
-  backgroundColor: 'var(--color-secondary)',
-  textAlign: 'center',
-  fontWeight: 600,
-  cursor: 'pointer',
-
-  selectors: {
-    '&[aria-pressed=true]': {
-      backgroundColor: 'var(--color-primary)',
-      color: 'var(--color-secondary)',
-    },
-  },
-});

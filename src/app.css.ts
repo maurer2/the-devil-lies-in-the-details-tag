@@ -16,15 +16,6 @@ export const pageTitle = style({
   marginBottom: roundWithFallback('calc(var(--spacing-default) * 2)'),
 });
 
-export const toggleButton = style({
+export const buttonGroup = style({
   marginBottom: roundWithFallback('calc(var(--spacing-default) * 1)'),
-  paddingInline: roundWithFallback('calc(var(--spacing-default) * 1)'),
-  paddingBlock: roundWithFallback('calc(var(--spacing-default) * 0.75)'),
-  border: '1px solid var(--color-primary)',
-  backgroundColor: 'var(--color-secondary)',
-  opacity: 1,
-  cursor: 'pointer',
-  transition: 'opacity 0.25s',
-  flexBasis: '100%',
-  fontWeight: 600,
 });
