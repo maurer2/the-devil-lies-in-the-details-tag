@@ -4,10 +4,10 @@ import roundWithFallback from './helpers/round-with-fallback/round-with-fallback
 
 export const wrapper = style({
   marginInline: 'auto',
+  backgroundColor: 'var(--color-secondary)',
   padding: roundWithFallback('calc(var(--spacing-default) * 2)'),
   width: 'min(100vw, 1024px)',
   minHeight: '100svh',
-  backgroundColor: 'var(--color-secondary)',
   color: 'var(--color-primary)',
 });
 

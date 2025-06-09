@@ -1,7 +1,8 @@
 import { Fragment } from 'react';
 
-import { debugList, debugListKey, debugListValue } from './styles.css.ts';
 import type { GroupedEntry } from '../../types.ts';
+
+import { debugList, debugListKey, debugListValue } from './styles.css.ts';
 
 type DebugListProps = {
   groupedEntries: GroupedEntry[];

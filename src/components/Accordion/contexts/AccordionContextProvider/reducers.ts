@@ -1,15 +1,16 @@
 import type { ContextType } from 'react';
 
 import AccordionStateContext from '../AccordionStateContext';
-import type { AccordionReducerActions } from '.';
+
 import type { AccordionEntry } from '../../../../types.ts';
+
+import type { AccordionReducerActions } from '.';
 
 type AccordionStateContextType = ContextType<typeof AccordionStateContext>;
 
 // todo: better approach for derived state
-const getNamesOfExpandedAccordionEntries = (accordionEntries: AccordionEntry[]) => {
-  return accordionEntries.filter(({ isExpanded }) => isExpanded).map(({ name }) => name);
-};
+const getNamesOfExpandedAccordionEntries = (accordionEntries: AccordionEntry[]) =>
+  accordionEntries.filter(({ isExpanded }) => isExpanded).map(({ name }) => name);
 
 export const accordionReducer = (
   state: AccordionStateContextType,

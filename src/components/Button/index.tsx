@@ -18,7 +18,7 @@ export default function Button({ children, type, state, size, onClick, ...props 
   const buttonClassName = button({ state, size });
 
   return (
-    <button className={buttonClassName} onClick={onClick} type={type} {...props}>
+    <button className={buttonClassName} onClick={onClick} type={type ?? 'button'} {...props}>
       {children}
     </button>
   );

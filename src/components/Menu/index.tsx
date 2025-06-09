@@ -5,6 +5,7 @@ import AccordionDispatchContext from '../Accordion/contexts/AccordionDispatchCon
 import Button from '../Button/index.tsx';
 
 import type { GroupName } from '../../types.ts';
+
 import { menu } from './styles.css.ts';
 
 export default function Menu() {
@@ -25,7 +26,7 @@ export default function Menu() {
         });
       }
 
-      dispatchAccordionAction({
+      return dispatchAccordionAction({
         type: 'EXPAND_ACCORDION_ENTRY',
         payload: {
           name,

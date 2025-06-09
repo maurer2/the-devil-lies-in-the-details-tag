@@ -3,8 +3,9 @@ import { use, type SyntheticEvent, type PropsWithChildren } from 'react';
 import AccordionStateContext from '../../contexts/AccordionStateContext';
 import AccordionDispatchContext from '../../contexts/AccordionDispatchContext';
 
-import { detailsWrapper, details, summary, content, debugString } from './styles.css.ts';
 import type { GroupName } from '../../../../types.ts';
+
+import { detailsWrapper, details, summary, content, debugString } from './styles.css.ts';
 
 type AccordionDetailsProps = PropsWithChildren;
 
@@ -13,7 +14,7 @@ const listFormatter = new Intl.ListFormat('en-GB', {
   type: 'conjunction',
 });
 
-// @ts-expect-error no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function AccordionDetails({ children }: AccordionDetailsProps) {
   const { accordionEntries, namesOfExpandedGroups } = use(AccordionStateContext);
   const dispatchAccordionAction = use(AccordionDispatchContext);
@@ -55,7 +56,12 @@ export default function AccordionDetails({ children }: AccordionDetailsProps) {
           <summary className={summary}>
             {name} <span className={debugString}>{isExpanded ? 'open' : 'not open'}</span>
           </summary>
-          <div className={content} onClick={(event) => event.stopPropagation()}>
+          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+          <div
+            className={content}
+            onClick={(event) => event.stopPropagation()}
+            onKeyDown={(event) => event.stopPropagation()}
+          >
             <span>{listFormatter.format(entries)}</span>
           </div>
         </details>

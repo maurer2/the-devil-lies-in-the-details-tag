@@ -7,28 +7,29 @@ export const varButtonFlexBasis = createVar();
 
 export const button = recipe({
   base: {
-    paddingInline: roundWithFallback('calc(var(--spacing-default) * 1)'),
-    paddingBlock: roundWithFallback('calc(var(--spacing-default) * 0.75)'),
     border: '1px solid var(--color-primary)',
+    paddingBlock: roundWithFallback('calc(var(--spacing-default) * 0.75)'),
+    paddingInline: roundWithFallback('calc(var(--spacing-default) * 1)'),
     fontWeight: 600,
   },
   variants: {
     state: {
       default: {
-        backgroundColor: 'var(--color-secondary)',
-        color: 'var(--primary)',
         opacity: 1,
+        backgroundColor: 'var(--color-secondary)',
         cursor: 'pointer',
+        color: 'var(--primary)',
       },
       active: { backgroundColor: 'var(--color-primary)', color: 'var(--color-secondary)' },
       disabled: {
-        backgroundColor: 'var(--color-secondary)',
-        color: 'var(--primary)',
         opacity: 0.25,
+        backgroundColor: 'var(--color-secondary)',
         cursor: 'not-allowed',
+        color: 'var(--primary)',
       },
     },
     size: {
+      // eslint-disable-next-line vanilla-extract/no-empty-style-blocks
       default: {},
       dynamic: {
         flexBasis: varButtonFlexBasis,
