@@ -26,19 +26,23 @@ export default function AccordionDetails({ children }: AccordionDetailsProps) {
     (event: SyntheticEvent<HTMLDetailsElement>): void => {
       event.preventDefault();
 
-      const isExpanded = event.currentTarget.open;
+      const shouldNowBeExpanded = event.currentTarget.open;
 
-      // ignore onToggle calls on mount for details elements that are expanded by default
-      if (isExpanded && namesOfExpandedGroups.includes(name)) {
+      // ignore toggle calls when open attribute is changed programmatically, e.g. on load or through state changes
+      if (
+        (shouldNowBeExpanded && namesOfExpandedGroups.includes(name))
+        || (!shouldNowBeExpanded && !namesOfExpandedGroups.includes(name))
+      ) {
         return;
       }
-      console.info(`${name} was toggled to`, isExpanded ? 'open' : 'not open');
+
+      console.info(`${name} was toggled to`, shouldNowBeExpanded ? 'expanded' : 'collapsed');
 
       dispatchAccordionAction({
         type: 'TOGGLE_ACCORDION_ENTRY',
         payload: {
           name,
-          isExpanded,
+          isExpanded: shouldNowBeExpanded,
         },
       });
     };
