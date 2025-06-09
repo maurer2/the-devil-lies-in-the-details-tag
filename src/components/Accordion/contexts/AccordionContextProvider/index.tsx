@@ -3,9 +3,10 @@ import type { Simplify } from 'type-fest';
 
 import AccordionStateContext from '../AccordionStateContext';
 import AccordionDispatchContext from '../AccordionDispatchContext';
-import { accordionReducer } from './reducers.ts';
 
 import type { GroupedEntry, GroupName } from '../../../../types.ts';
+
+import { accordionReducer } from './reducers.ts';
 
 type AccordionContextProviderProps = PropsWithChildren<{
   groupedEntries: GroupedEntry[];

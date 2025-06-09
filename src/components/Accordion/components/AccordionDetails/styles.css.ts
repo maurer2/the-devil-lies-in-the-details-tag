@@ -8,28 +8,28 @@ export const detailsWrapper = style({
 
 export const details = style({
   position: 'relative',
-  paddingBlock: roundWithFallback('calc(var(--spacing-default) * 1)'),
-  paddingInline: roundWithFallback('calc(var(--spacing-default) * 2)'),
   border: '1px solid var(--color-primary)',
   borderTop: 0,
+  paddingBlock: roundWithFallback('calc(var(--spacing-default) * 1)'),
+  paddingInline: roundWithFallback('calc(var(--spacing-default) * 2)'),
 
   selectors: {
     '&:first-of-type': {
       borderTop: '1px solid var(--color-primary)',
     },
     '&:before': {
-      content: '+',
       position: 'absolute',
       left: '0.75rlh',
       fontWeight: 600,
+      content: '+',
     },
     '&[open]:before': {
       content: '-',
     },
     '&[open]': {
+      borderBottom: '1px solid currentColor',
       backgroundColor: 'var(--color-primary)',
       color: 'var(--color-secondary)',
-      borderBottom: '1px solid currentColor',
     },
   },
 });

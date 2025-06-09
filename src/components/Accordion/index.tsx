@@ -1,11 +1,12 @@
 import type { PropsWithChildren } from 'react';
 
+import type { GroupedEntry, GroupName } from '../../types.ts';
+
 import AccordionDetails from './components/AccordionDetails';
 import AccordionToggleButtons from './components/AccordionToggleButtons';
 import AccordionContextProvider from './contexts/AccordionContextProvider';
 
 import { detailsWrapper } from './styles.css.ts';
-import type { GroupedEntry, GroupName } from '../../types.ts';
 
 type AccordionProps = PropsWithChildren<{
   groupedEntries: GroupedEntry[];

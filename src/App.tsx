@@ -12,9 +12,7 @@ import type { GroupName, GroupedEntry } from './types.ts';
 
 const hasEntriesInGroup = <T extends Array<unknown>>(
   entry: [PropertyKey, T | undefined],
-): entry is [PropertyKey, T] => {
-  return Boolean(entry[1]?.length);
-};
+): entry is [PropertyKey, T] => Boolean(entry[1]?.length);
 
 const catNamesGroupedByFirstLetter = Object.entries(
   Object.groupBy(catNames, (name) => name[0].toUpperCase()),
