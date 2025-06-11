@@ -2,32 +2,31 @@ import type { PropsWithChildren } from 'react';
 
 import type { GroupedEntry, GroupName } from '../../types.ts';
 
-import AccordionDetails from './components/AccordionDetails';
-import AccordionToggleButtons from './components/AccordionToggleButtons';
-import AccordionContextProvider from './contexts/AccordionContextProvider';
+import Details from './components/Details/index.tsx';
+import ToggleButtons from './components/ToggleButtons/index.tsx';
+import ContextProvider from './contexts/ContextProvider';
+import Menu from './components/Menu';
 
-import { detailsWrapper } from './styles.css.ts';
+import { wrapper } from './styles.css.ts';
 
 type AccordionProps = PropsWithChildren<{
   groupedEntries: GroupedEntry[];
   defaultExpandedGroupNames?: GroupName[];
 }>;
 
-export default function Accordion({
-  groupedEntries,
-  defaultExpandedGroupNames = [],
-  children,
-}: AccordionProps) {
+function Accordion({ groupedEntries, defaultExpandedGroupNames = [], children }: AccordionProps) {
   return (
-    <AccordionContextProvider
+    <ContextProvider
       groupedEntries={groupedEntries}
       defaultExpandedGroupNames={defaultExpandedGroupNames}
     >
-      {children}
-      <div className={detailsWrapper}>
-        <AccordionToggleButtons />
-        <AccordionDetails />
-      </div>
-    </AccordionContextProvider>
+      <div className={wrapper}>{children}</div>
+    </ContextProvider>
   );
 }
+
+Accordion.Details = Details;
+Accordion.ToggleButtons = ToggleButtons;
+Accordion.Menu = Menu;
+
+export default Accordion;

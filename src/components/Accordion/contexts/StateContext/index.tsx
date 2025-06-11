@@ -1,14 +1,13 @@
 import { createContext } from 'react';
-import type { Simplify } from 'type-fest';
 
 import type { GroupName, AccordionEntry } from '../../../../types.ts';
 
-type AccordionStateContextType = Simplify<{
+type ContextType = {
   accordionEntries: AccordionEntry[];
   namesOfExpandedGroups: GroupName[];
-}>;
+};
 
-const AccordionStateContext = createContext<AccordionStateContextType>({
+const AccordionStateContext = createContext<ContextType>({
   accordionEntries: [],
   namesOfExpandedGroups: [],
 });

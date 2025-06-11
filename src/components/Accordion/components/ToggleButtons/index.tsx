@@ -1,17 +1,17 @@
 import { use, type PropsWithChildren } from 'react';
 
-import AccordionStateContext from '../../contexts/AccordionStateContext';
-import AccordionDispatchContext from '../../contexts/AccordionDispatchContext';
-import Button from '../../../Button';
+import AccordionStateContext from '../../contexts/StateContext/index.tsx';
+import DispatchContext from '../../contexts/DispatchContext/index.tsx';
+import Button from '../../../Button/index.tsx';
 
 import { toggleButtonGroup } from './styles.css.ts';
 
-type AccordionToggleButtonsProps = PropsWithChildren;
+type ToggleButtonsProps = PropsWithChildren;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function AccordionToggleButtons({ children }: AccordionToggleButtonsProps) {
+export default function ToggleButtons({ children }: ToggleButtonsProps) {
   const { accordionEntries, namesOfExpandedGroups } = use(AccordionStateContext);
-  const dispatchAccordionAction = use(AccordionDispatchContext);
+  const dispatchAccordionAction = use(DispatchContext);
 
   const hasCollapsibleEntries = Boolean(namesOfExpandedGroups.length);
   const hasExpandableEntries = namesOfExpandedGroups.length !== accordionEntries.length;

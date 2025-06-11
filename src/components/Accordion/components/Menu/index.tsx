@@ -1,10 +1,10 @@
 import { use, type MouseEvent } from 'react';
 
-import AccordionStateContext from '../Accordion/contexts/StateContext/index.tsx';
-import DispatchContext from '../Accordion/contexts/DispatchContext/index.tsx';
-import Button from '../Button/index.tsx';
+import AccordionStateContext from '../../contexts/StateContext/index.tsx';
+import DispatchContext from '../../contexts/DispatchContext/index.tsx';
+import Button from '../../../Button/index.tsx';
 
-import type { GroupName } from '../../types.ts';
+import type { GroupName } from '../../../../types.ts';
 
 import { menu } from './styles.css.ts';
 

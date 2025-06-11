@@ -1,10 +1,10 @@
 import type { ContextType } from 'react';
 
-import AccordionStateContext from '../AccordionStateContext';
+import AccordionStateContext from '../StateContext/index.tsx';
 
 import type { AccordionEntry } from '../../../../types.ts';
 
-import type { AccordionReducerActions } from '.';
+import type { ReducerActions } from '.';
 
 type AccordionStateContextType = ContextType<typeof AccordionStateContext>;
 
@@ -14,7 +14,7 @@ const getNamesOfExpandedAccordionEntries = (accordionEntries: AccordionEntry[]) 
 
 export const accordionReducer = (
   state: AccordionStateContextType,
-  action: AccordionReducerActions,
+  action: ReducerActions,
 ): AccordionStateContextType => {
   const { accordionEntries } = state;
   const { type } = action;

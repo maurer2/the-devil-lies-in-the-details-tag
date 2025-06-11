@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
-import roundWithFallback from '../../../../helpers/round-with-fallback/round-with-fallback';
-import { detailsWrapperContainer } from '../../styles.css';
+import roundWithFallback from '../../../../helpers/round-with-fallback/round-with-fallback.ts';
+import { detailsWrapperContainer } from '../../styles.css.ts';
 import { varButtonFlexBasis } from '../../../Button/styles.css.ts';
 
 export const toggleButtonGroup = style({

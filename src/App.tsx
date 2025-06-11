@@ -3,7 +3,6 @@ import { catNames } from 'cat-names';
 import { sampleSize, randomInt } from 'es-toolkit';
 
 import Accordion from './components/Accordion';
-import Menu from './components/Menu';
 import DebugList from './components/DebugList';
 import Button from './components/Button';
 
@@ -62,7 +61,9 @@ export default function App() {
         key={accordionComponentKey}
         defaultExpandedGroupNames={defaultExpandedGroupNames}
       >
-        <Menu />
+        <Accordion.Menu />
+        <Accordion.ToggleButtons />
+        <Accordion.Details />
       </Accordion>
 
       <hr />

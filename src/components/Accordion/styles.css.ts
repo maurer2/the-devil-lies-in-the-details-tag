@@ -4,7 +4,7 @@ import roundWithFallback from '../../helpers/round-with-fallback/round-with-fall
 
 export const detailsWrapperContainer = createContainer();
 
-export const detailsWrapper = style({
+export const wrapper = style({
   marginBottom: roundWithFallback('calc(var(--spacing-default) * 2)'),
   containerName: detailsWrapperContainer,
   containerType: 'inline-size',

@@ -1,13 +1,13 @@
 import { use, type SyntheticEvent, type PropsWithChildren } from 'react';
 
-import AccordionStateContext from '../../contexts/AccordionStateContext';
-import AccordionDispatchContext from '../../contexts/AccordionDispatchContext';
+import AccordionStateContext from '../../contexts/StateContext/index.tsx';
+import DispatchContext from '../../contexts/DispatchContext/index.tsx';
 
 import type { GroupName } from '../../../../types.ts';
 
 import { detailsWrapper, details, summary, content, debugString } from './styles.css.ts';
 
-type AccordionDetailsProps = PropsWithChildren;
+type DetailsProps = PropsWithChildren;
 
 const listFormatter = new Intl.ListFormat('en-GB', {
   style: 'long',
@@ -15,9 +15,9 @@ const listFormatter = new Intl.ListFormat('en-GB', {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function AccordionDetails({ children }: AccordionDetailsProps) {
+export default function Details({ children }: DetailsProps) {
   const { accordionEntries, namesOfExpandedGroups } = use(AccordionStateContext);
-  const dispatchAccordionAction = use(AccordionDispatchContext);
+  const dispatchAccordionAction = use(DispatchContext);
 
   // Note: onToggle fires on mount for details elements that are expanded by default
   // ToggleEventHandler<HTMLDetailsElement> causes TS error
