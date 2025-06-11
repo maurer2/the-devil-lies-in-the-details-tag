@@ -5,6 +5,7 @@ import { sampleSize, randomInt } from 'es-toolkit';
 import Accordion from './components/Accordion';
 import DebugList from './components/DebugList';
 import Button from './components/Button';
+import ButtonGroup from './components/ButtonGroup';
 
 import { wrapper, pageTitle, buttonGroup } from './app.css.ts';
 import type { GroupName, GroupedEntry } from './types.ts';
@@ -62,7 +63,35 @@ export default function App() {
         defaultExpandedGroupNames={defaultExpandedGroupNames}
       >
         <Accordion.Menu />
-        <Accordion.ToggleButtons />
+        <Accordion.ToggleButtonsFaaC>
+          {({
+            hasCollapsibleEntries,
+            hasExpandableEntries,
+            handleCollapseButtonClick,
+            handleExpandButtonClick,
+          }) => (
+            <ButtonGroup role="group" aria-label="Collapse and Expand buttons">
+              <Button
+                type="button"
+                state={!hasCollapsibleEntries ? 'disabled' : 'default'}
+                onClick={handleCollapseButtonClick}
+                aria-disabled={!hasCollapsibleEntries}
+                aria-label="Collapse all entries"
+              >
+                Collapse
+              </Button>
+              <Button
+                type="button"
+                state={!hasExpandableEntries ? 'disabled' : 'default'}
+                onClick={handleExpandButtonClick}
+                aria-disabled={!hasExpandableEntries}
+                aria-label="Expand all entries"
+              >
+                Expand
+              </Button>
+            </ButtonGroup>
+          )}
+        </Accordion.ToggleButtonsFaaC>
         <Accordion.Details />
       </Accordion>
 
