@@ -2,11 +2,12 @@ import type { PropsWithChildren } from 'react';
 
 import type { GroupedEntry, GroupName } from '../../types.ts';
 
-import Details from './components/Details/index.tsx';
+import Details from './components/Details';
 import ToggleButtons from './components/ToggleButtons';
 import ToggleButtonsFaaC from './components/ToggleButtonsFaaC';
 import ContextProvider from './contexts/ContextProvider';
 import Menu from './components/Menu';
+import MenuRenderProps from './components/MenuRenderProps';
 
 import { wrapper } from './styles.css.ts';
 
@@ -28,7 +29,8 @@ function Accordion({ groupedEntries, defaultExpandedGroupNames = [], children }:
 
 Accordion.Details = Details;
 Accordion.ToggleButtons = ToggleButtons;
-Accordion.Menu = Menu;
 Accordion.ToggleButtonsFaaC = ToggleButtonsFaaC;
+Accordion.Menu = Menu;
+Accordion.MenuRenderProps = MenuRenderProps;
 
 export default Accordion;

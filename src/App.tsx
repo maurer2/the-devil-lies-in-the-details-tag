@@ -62,7 +62,31 @@ export default function App() {
         key={accordionComponentKey}
         defaultExpandedGroupNames={defaultExpandedGroupNames}
       >
-        <Accordion.Menu />
+        <Accordion.MenuRenderProps
+          renderMenuEntries={({
+            accordionEntries,
+            namesOfExpandedGroups,
+            handleGroupToggleClick,
+          }) =>
+            accordionEntries.map(({ name }) => {
+              const isActive = namesOfExpandedGroups.includes(name);
+
+              return (
+                <>
+                  <Button
+                    key={name}
+                    state={isActive ? 'active' : 'default'}
+                    onClick={handleGroupToggleClick(name)}
+                    aria-pressed={isActive}
+                    type="button"
+                  >
+                    {name}
+                  </Button>
+                </>
+              );
+            })
+          }
+        />
         <Accordion.ToggleButtonsFaaC>
           {({
             hasCollapsibleEntries,
