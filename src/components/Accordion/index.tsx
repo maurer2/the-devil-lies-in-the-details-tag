@@ -8,7 +8,6 @@ import ToggleButtonsFaaC from './components/ToggleButtonsFaaC';
 import ContextProvider from './contexts/ContextProvider';
 import Menu from './components/Menu';
 import MenuRenderProps from './components/MenuRenderProps';
-
 import { wrapper } from './styles.css.ts';
 
 type AccordionProps = PropsWithChildren<{

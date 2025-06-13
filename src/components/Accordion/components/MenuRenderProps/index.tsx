@@ -1,8 +1,7 @@
 import { use, type MouseEvent, type ContextType, type ReactNode } from 'react';
 
-import AccordionStateContext from '../../contexts/StateContext/index.tsx';
-import DispatchContext from '../../contexts/DispatchContext/index.tsx';
-
+import AccordionStateContext from '../../contexts/StateContext';
+import DispatchContext from '../../contexts/DispatchContext';
 import type { GroupName } from '../../../../types.ts';
 
 import { menu } from './styles.css.ts';

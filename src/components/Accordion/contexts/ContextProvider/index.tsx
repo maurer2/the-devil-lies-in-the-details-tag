@@ -1,9 +1,8 @@
 import { useReducer, type PropsWithChildren, type ContextType } from 'react';
 import type { Simplify } from 'type-fest';
 
-import StateContext from '../StateContext/index.tsx';
-import DispatchContext from '../DispatchContext/index.tsx';
-
+import StateContext from '../StateContext';
+import DispatchContext from '../DispatchContext';
 import type { GroupedEntry, GroupName } from '../../../../types.ts';
 
 import { accordionReducer } from './reducers.ts';

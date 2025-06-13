@@ -51,8 +51,10 @@ const jsConfig = [
       'import-x/order': [
         'error',
         {
-          'newlines-between': 'always-and-inside-groups',
-          consolidateIslands: 'never',
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object'],
+          'newlines-between': 'always',
+          'newlines-between-types': 'never',
+          sortTypesGroup: true,
         },
       ],
     },

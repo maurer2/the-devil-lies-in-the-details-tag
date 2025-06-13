@@ -1,8 +1,7 @@
 import { use, type SyntheticEvent, type PropsWithChildren } from 'react';
 
-import AccordionStateContext from '../../contexts/StateContext/index.tsx';
-import DispatchContext from '../../contexts/DispatchContext/index.tsx';
-
+import AccordionStateContext from '../../contexts/StateContext';
+import DispatchContext from '../../contexts/DispatchContext';
 import type { GroupName } from '../../../../types.ts';
 
 import { detailsWrapper, details, summary, content, debugString } from './styles.css.ts';

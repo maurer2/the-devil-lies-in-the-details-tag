@@ -1,7 +1,6 @@
 import type { ContextType } from 'react';
 
-import AccordionStateContext from '../StateContext/index.tsx';
-
+import AccordionStateContext from '../StateContext';
 import type { AccordionEntry } from '../../../../types.ts';
 
 import type { ReducerActions } from '.';

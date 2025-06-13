@@ -1,8 +1,8 @@
 import { use, type PropsWithChildren } from 'react';
 
-import AccordionStateContext from '../../contexts/StateContext/index.tsx';
-import DispatchContext from '../../contexts/DispatchContext/index.tsx';
-import Button from '../../../Button/index.tsx';
+import AccordionStateContext from '../../contexts/StateContext';
+import DispatchContext from '../../contexts/DispatchContext';
+import Button from '../../../Button';
 
 import { toggleButtonGroup } from './styles.css.ts';
 

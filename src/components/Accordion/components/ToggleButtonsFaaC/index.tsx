@@ -1,7 +1,7 @@
 import { use, type ReactElement } from 'react';
 
-import AccordionStateContext from '../../contexts/StateContext/index.tsx';
-import DispatchContext from '../../contexts/DispatchContext/index.tsx';
+import AccordionStateContext from '../../contexts/StateContext';
+import DispatchContext from '../../contexts/DispatchContext';
 
 type ToggleButtonsProps = {
   children({

@@ -6,7 +6,6 @@ import Accordion from './components/Accordion';
 import DebugList from './components/DebugList';
 import Button from './components/Button';
 import ButtonGroup from './components/ButtonGroup';
-
 import { wrapper, pageTitle, buttonGroup } from './app.css.ts';
 import type { GroupName, GroupedEntry } from './types.ts';
 
