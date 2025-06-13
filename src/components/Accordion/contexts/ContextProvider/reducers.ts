@@ -8,7 +8,6 @@ import type { ReducerActions } from '.';
 
 type AccordionStateContextType = ContextType<typeof AccordionStateContext>;
 
-// todo: better approach for derived state
 const getNamesOfExpandedAccordionEntries = (accordionEntries: AccordionEntry[]) =>
   accordionEntries.filter(({ isExpanded }) => isExpanded).map(({ name }) => name);
 
@@ -19,92 +18,98 @@ export const accordionReducer = (
   const { accordionEntries } = state;
   const { type } = action;
 
-  switch (type) {
-    case 'EXPAND_ACCORDION_ENTRY': {
-      const { name } = action.payload;
+  const newState = (() => {
+    switch (type) {
+      case 'EXPAND_ACCORDION_ENTRY': {
+        const { name } = action.payload;
 
-      const newAccordionEntries = accordionEntries.map((entry) =>
-        entry.name === name
-          ? {
-              ...entry,
-              isExpanded: true,
-            }
-          : entry,
-      );
-      const namesOfExpandedGroups = getNamesOfExpandedAccordionEntries(newAccordionEntries);
+        const newAccordionEntries = accordionEntries.map((entry) =>
+          entry.name === name
+            ? {
+                ...entry,
+                isExpanded: true,
+              }
+            : entry,
+        );
 
-      return {
-        ...state,
-        accordionEntries: newAccordionEntries,
-        namesOfExpandedGroups,
-      };
+        return {
+          ...state,
+          accordionEntries: newAccordionEntries,
+          namesOfExpandedGroups: null, // force type error if calculations for derived state are omitted
+        };
+      }
+      case 'COLLAPSE_ACCORDION_ENTRY': {
+        const { name } = action.payload;
+
+        const newAccordionEntries = accordionEntries.map((entry) =>
+          entry.name === name
+            ? {
+                ...entry,
+                isExpanded: false,
+              }
+            : entry,
+        );
+
+        return {
+          ...state,
+          accordionEntries: newAccordionEntries,
+          namesOfExpandedGroups: null,
+        };
+      }
+      case 'TOGGLE_ACCORDION_ENTRY': {
+        const { name, isExpanded } = action.payload;
+
+        const newAccordionEntries = accordionEntries.map((entry) =>
+          entry.name === name
+            ? {
+                ...entry,
+                isExpanded,
+              }
+            : entry,
+        );
+
+        return {
+          ...state,
+          accordionEntries: newAccordionEntries,
+          namesOfExpandedGroups: null,
+        };
+      }
+      case 'EXPAND_ALL_ACCORDION_ENTRIES': {
+        const newAccordionEntries = accordionEntries.map((entry) => ({
+          ...entry,
+          isExpanded: true,
+        }));
+
+        return {
+          ...state,
+          accordionEntries: newAccordionEntries,
+          namesOfExpandedGroups: null,
+        };
+      }
+      case 'COLLAPSE_ALL_ACCORDION_ENTRIES': {
+        const newAccordionEntries = accordionEntries.map((entry) => ({
+          ...entry,
+          isExpanded: false,
+        }));
+
+        return {
+          ...state,
+          accordionEntries: newAccordionEntries,
+          namesOfExpandedGroups: null,
+        };
+      }
+      default: {
+        return type satisfies never;
+      }
     }
-    case 'COLLAPSE_ACCORDION_ENTRY': {
-      const { name } = action.payload;
+  })();
 
-      const newAccordionEntries = accordionEntries.map((entry) =>
-        entry.name === name
-          ? {
-              ...entry,
-              isExpanded: false,
-            }
-          : entry,
-      );
-      const namesOfExpandedGroups = getNamesOfExpandedAccordionEntries(newAccordionEntries);
+  const newDerivedState = {
+    namesOfExpandedGroups: getNamesOfExpandedAccordionEntries(newState.accordionEntries),
+  };
 
-      return {
-        ...state,
-        accordionEntries: newAccordionEntries,
-        namesOfExpandedGroups,
-      };
-    }
-    case 'TOGGLE_ACCORDION_ENTRY': {
-      const { name, isExpanded } = action.payload;
-
-      const newAccordionEntries = accordionEntries.map((entry) =>
-        entry.name === name
-          ? {
-              ...entry,
-              isExpanded,
-            }
-          : entry,
-      );
-      const namesOfExpandedGroups = getNamesOfExpandedAccordionEntries(newAccordionEntries);
-
-      return {
-        ...state,
-        accordionEntries: newAccordionEntries,
-        namesOfExpandedGroups,
-      };
-    }
-    case 'EXPAND_ALL_ACCORDION_ENTRIES': {
-      const newAccordionEntries = accordionEntries.map((entry) => ({
-        ...entry,
-        isExpanded: true,
-      }));
-      const namesOfExpandedGroups = getNamesOfExpandedAccordionEntries(newAccordionEntries);
-
-      return {
-        ...state,
-        accordionEntries: newAccordionEntries,
-        namesOfExpandedGroups,
-      };
-    }
-    case 'COLLAPSE_ALL_ACCORDION_ENTRIES': {
-      const newAccordionEntries = accordionEntries.map((entry) => ({
-        ...entry,
-        isExpanded: false,
-      }));
-      const namesOfExpandedGroups = getNamesOfExpandedAccordionEntries(newAccordionEntries);
-
-      return {
-        ...state,
-        accordionEntries: newAccordionEntries,
-        namesOfExpandedGroups,
-      };
-    }
-    default: {
-      return type satisfies never;
-    }
-  }
+  return {
+    ...newState,
+    ...newDerivedState,
+  };
 };
