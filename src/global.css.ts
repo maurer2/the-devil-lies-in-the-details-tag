@@ -1,7 +1,10 @@
-import { globalStyle } from '@vanilla-extract/css';
+import { globalStyle, createContainer } from '@vanilla-extract/css';
+
+export const bodyContainer = createContainer();
 
 globalStyle(':root', {
   background: 'var(--color-primary)',
+  scrollbarGutter: 'stable',
   color: 'var(--color-secondary)',
 
   vars: {
@@ -15,6 +18,8 @@ globalStyle(':root', {
 
 globalStyle('body', {
   minHeight: ['100vh', '100dvh'],
+  containerName: bodyContainer,
+  containerType: 'inline-size',
 });
 
 globalStyle('p', {

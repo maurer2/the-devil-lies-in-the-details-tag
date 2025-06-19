@@ -6,7 +6,8 @@ export const wrapper = style({
   marginInline: 'auto',
   backgroundColor: 'var(--color-secondary)',
   padding: roundWithFallback('calc(var(--spacing-default) * 2)'),
-  width: 'min(100vw, 1024px)',
+  // https://www.smashingmagazine.com/2023/12/new-css-viewport-units-not-solve-classic-scrollbar-problem/#avoiding-the-classic-scrollbar-problem
+  width: ['min(100%, 1024px)', 'min(100cqw, 1024px)'],
   minHeight: '100svh',
   color: 'var(--color-primary)',
 });
