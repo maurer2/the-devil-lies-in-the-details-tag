@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { style, type CSSProperties } from '@vanilla-extract/css';
 
 import roundWithFallback from '../../../../helpers/round-with-fallback/round-with-fallback';
 
@@ -6,12 +6,25 @@ export const detailsWrapper = style({
   marginBottom: roundWithFallback('calc(var(--spacing-default) * 2)'),
 });
 
+const transitionDefaults: CSSProperties = {
+  transitionDuration: '0.25s',
+  transitionBehavior: 'allow-discrete',
+};
+
 export const details = style({
   position: 'relative',
   border: '1px solid var(--color-primary)',
   borderTop: 0,
   paddingBlock: roundWithFallback('calc(var(--spacing-default) * 1)'),
   paddingInline: roundWithFallback('calc(var(--spacing-default) * 2)'),
+  overflow: 'hidden',
+
+  '@media': {
+    '(prefers-reduced-motion: no-preference)': {
+      ...transitionDefaults,
+      transitionProperty: 'background-color',
+    },
+  },
 
   selectors: {
     '&:first-of-type': {
@@ -30,6 +43,20 @@ export const details = style({
       borderBottom: '1px solid currentColor',
       backgroundColor: 'var(--color-primary)',
       color: 'var(--color-secondary)',
+    },
+    // pseudo element not supported in FF unflagged
+    '&::details-content': {
+      height: 0,
+
+      '@media': {
+        '(prefers-reduced-motion: no-preference)': {
+          ...transitionDefaults,
+          transitionProperty: 'height, content-visibility',
+        },
+      },
+    },
+    '&[open]::details-content': {
+      height: ['auto', 'calc-size(auto, size)'],
     },
   },
 });

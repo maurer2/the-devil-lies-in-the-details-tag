@@ -47,8 +47,8 @@ export const progressIndicator = style({
           // 2. mask border that is not filled yet
           // todo: remove magic numbers
           maskImage: `
-    radial-gradient(circle at center, transparent 0, transparent 50%, currentColor 50%, currentColor 100%),
-    conic-gradient(currentColor 0deg, currentColor ${angleVar}, transparent ${angleVar})`,
+            radial-gradient(circle at center, transparent 0, transparent 50%, currentColor 50%, currentColor 100%),
+            conic-gradient(currentColor 0deg, currentColor ${angleVar}, transparent ${angleVar})`,
         },
       },
     },
