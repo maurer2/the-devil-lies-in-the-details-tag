@@ -1,6 +1,6 @@
 import { style, keyframes, createVar } from '@vanilla-extract/css';
 
-import roundWithFallback from '../round-with-fallback/round-with-fallback';
+import roundWithFallback from '../../helpers/round-with-fallback/round-with-fallback';
 
 const angleVar = createVar({
   syntax: '<angle>',
@@ -22,7 +22,7 @@ const zeroTo360Animation = keyframes({
 });
 
 export const progressIndicator = style({
-  aspectRatio: '1 / 1',
+  aspectRatio: '1',
   position: 'fixed',
   zIndex: 10,
   top: roundWithFallback('calc(var(--spacing-default) * 1)'),

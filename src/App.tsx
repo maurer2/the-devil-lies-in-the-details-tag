@@ -6,7 +6,7 @@ import Accordion from './components/Accordion';
 import DebugList from './components/DebugList';
 import Button from './components/Button';
 import ButtonGroup from './components/ButtonGroup';
-import ProgressIndicator from './helpers/ProgressIndicator/index.tsx';
+import ProgressIndicator from './components/ProgressIndicator/index.tsx';
 import { wrapper, pageTitle, buttonGroup } from './app.css.ts';
 import type { GroupName, GroupedEntry } from './types.ts';
 
@@ -44,8 +44,8 @@ export default function App() {
 
   return (
     <main className={wrapper}>
-      <h1 className={pageTitle}>Accordion</h1>
       <ProgressIndicator />
+      <h1 className={pageTitle}>Accordion</h1>
 
       <p>
         Searching for <span>Abby</span> when accordion is closed to see a state mismatch between
