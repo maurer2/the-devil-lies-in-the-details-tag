@@ -1,11 +1,15 @@
 import { globalStyle, createContainer } from '@vanilla-extract/css';
 
+export const htmlContainer = createContainer();
 export const bodyContainer = createContainer();
 
 globalStyle(':root', {
   background: 'var(--color-primary)',
   scrollbarGutter: 'stable',
   color: 'var(--color-secondary)',
+
+  containerType: 'scroll-state',
+  containerName: htmlContainer,
 
   vars: {
     '--color-primary': 'black',

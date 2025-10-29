@@ -44,7 +44,6 @@ export const details = style({
       backgroundColor: 'var(--color-primary)',
       color: 'var(--color-secondary)',
     },
-    // pseudo element not supported in FF unflagged
     '&::details-content': {
       height: 0,
 
