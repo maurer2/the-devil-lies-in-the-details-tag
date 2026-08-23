@@ -1,0 +1,15 @@
+allowBuilds:
+  esbuild: true
+  unrs-resolver: true
+
+minimumReleaseAge: 10080
+blockExoticSubdeps: true
+
+supportedArchitectures:
+  cpu:
+    - arm64
+    - x64
+  os:
+    - darwin
+    - linux
+    - win32
