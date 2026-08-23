@@ -1,10 +1,10 @@
 import { style } from '@vanilla-extract/css';
 
-import roundWithFallback from '../../helpers/round-with-fallback/round-with-fallback';
+import round from '../../helpers/round/round';
 
 export const debugList = style({
   position: 'relative',
-  marginBlock: roundWithFallback('calc(var(--spacing-default) * 2)'),
+  marginBlock: round('calc(var(--spacing-default) * 2)'),
 });
 
 export const debugListKey = style({
@@ -16,18 +16,18 @@ export const debugListKey = style({
 
   selectors: {
     '&:not(:first-of-type)': {
-      marginTop: roundWithFallback('calc(var(--spacing-default) * 2)'),
+      marginTop: round('calc(var(--spacing-default) * 2)'),
     },
   },
 });
 
 export const debugListValue = style({
   marginTop: 0,
-  marginLeft: roundWithFallback('calc(var(--spacing-default) * 3)'),
+  marginLeft: round('calc(var(--spacing-default) * 3)'),
 
   selectors: {
     '&:not(:last-of-type)': {
-      marginBottom: roundWithFallback('calc(var(--spacing-default) * 2)'),
+      marginBottom: round('calc(var(--spacing-default) * 2)'),
     },
   },
 });

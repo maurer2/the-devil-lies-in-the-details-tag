@@ -1,15 +1,15 @@
 import { recipe, type RecipeVariants } from '@vanilla-extract/recipes';
 import { createVar } from '@vanilla-extract/css';
 
-import roundWithFallback from '../../helpers/round-with-fallback/round-with-fallback';
+import round from '../../helpers/round/round';
 
 export const varButtonFlexBasis = createVar();
 
 export const button = recipe({
   base: {
     border: '1px solid var(--color-primary)',
-    paddingBlock: roundWithFallback('calc(var(--spacing-default) * 0.75)'),
-    paddingInline: roundWithFallback('calc(var(--spacing-default) * 1)'),
+    paddingBlock: round('calc(var(--spacing-default) * 0.75)'),
+    paddingInline: round('calc(var(--spacing-default) * 1)'),
     fontWeight: 600,
   },
   variants: {

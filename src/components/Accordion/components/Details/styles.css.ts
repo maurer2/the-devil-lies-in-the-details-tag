@@ -1,9 +1,9 @@
 import { style, type CSSProperties } from '@vanilla-extract/css';
 
-import roundWithFallback from '../../../../helpers/round-with-fallback/round-with-fallback';
+import round from '../../../../helpers/round/round';
 
 export const detailsWrapper = style({
-  marginBottom: roundWithFallback('calc(var(--spacing-default) * 2)'),
+  marginBottom: round('calc(var(--spacing-default) * 2)'),
 });
 
 const transitionDefaults: CSSProperties = {
@@ -15,8 +15,8 @@ export const details = style({
   position: 'relative',
   border: '1px solid var(--color-primary)',
   borderTop: 0,
-  paddingBlock: roundWithFallback('calc(var(--spacing-default) * 1)'),
-  paddingInline: roundWithFallback('calc(var(--spacing-default) * 2)'),
+  paddingBlock: round('calc(var(--spacing-default) * 1)'),
+  paddingInline: round('calc(var(--spacing-default) * 2)'),
   overflow: 'hidden',
 
   '@media': {
@@ -74,7 +74,7 @@ export const summary = style({
 });
 
 export const content = style({
-  paddingTop: roundWithFallback('calc(var(--spacing-default) * 1)'),
+  paddingTop: round('calc(var(--spacing-default) * 1)'),
 });
 
 export const debugString = style({

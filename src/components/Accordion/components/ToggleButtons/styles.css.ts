@@ -1,14 +1,14 @@
 import { style } from '@vanilla-extract/css';
 
-import roundWithFallback from '../../../../helpers/round-with-fallback/round-with-fallback.ts';
+import round from '../../../../helpers/round/round';
 import { detailsWrapperContainer } from '../../styles.css.ts';
 import { varButtonFlexBasis } from '../../../Button/styles.css.ts';
 
 export const toggleButtonGroup = style({
   display: 'flex',
   flexWrap: 'wrap',
-  gap: roundWithFallback('calc(var(--spacing-default) * 1)'),
-  marginBottom: roundWithFallback('calc(var(--spacing-default) * 1)'),
+  gap: round('calc(var(--spacing-default) * 1)'),
+  marginBottom: round('calc(var(--spacing-default) * 1)'),
 
   // size prop needs to be set to "dynamic"
   vars: {

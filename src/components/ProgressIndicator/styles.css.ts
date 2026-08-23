@@ -1,6 +1,6 @@
 import { style, keyframes, createVar } from '@vanilla-extract/css';
 
-import roundWithFallback from '../../helpers/round-with-fallback/round-with-fallback';
+import round from '../../helpers/round/round';
 import { htmlContainer } from '../../global.css';
 
 const angleVar = createVar({
@@ -26,14 +26,14 @@ export const progressIndicator = style({
   aspectRatio: '1',
   position: 'fixed',
   zIndex: 10,
-  top: roundWithFallback('calc(var(--spacing-default) * 1)'),
-  right: roundWithFallback('calc(var(--spacing-default) * 1)'),
+  top: round('calc(var(--spacing-default) * 1)'),
+  right: round('calc(var(--spacing-default) * 1)'),
   display: 'none',
   transition: 'filter 0.5s',
   filter: 'contrast(0)',
   borderRadius: '50%',
   background: 'var(--color-secondary)',
-  width: roundWithFallback('calc(var(--spacing-default) * 2)'),
+  width: round('calc(var(--spacing-default) * 2)'),
   color: 'var(--color-tertiary)',
 
   '@supports': {
