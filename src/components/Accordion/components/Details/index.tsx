@@ -1,4 +1,4 @@
-import { use, type SyntheticEvent, type PropsWithChildren } from 'react';
+import { use, type SyntheticEvent } from 'react';
 
 import AccordionStateContext from '../../contexts/StateContext';
 import DispatchContext from '../../contexts/DispatchContext';
@@ -6,15 +6,12 @@ import type { GroupName } from '../../../../types.ts';
 
 import { detailsWrapper, details, summary, content, debugString } from './styles.css.ts';
 
-type DetailsProps = PropsWithChildren;
-
 const listFormatter = new Intl.ListFormat('en-GB', {
   style: 'long',
   type: 'conjunction',
 });
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function Details({ children }: DetailsProps) {
+export default function Details() {
   const { accordionEntries, namesOfExpandedGroups } = use(AccordionStateContext);
   const dispatchAccordionAction = use(DispatchContext);
 

@@ -1,4 +1,4 @@
-import { use, type PropsWithChildren } from 'react';
+import { use } from 'react';
 
 import AccordionStateContext from '../../contexts/StateContext';
 import DispatchContext from '../../contexts/DispatchContext';
@@ -6,10 +6,7 @@ import Button from '../../../Button';
 
 import { toggleButtonGroup } from './styles.css.ts';
 
-type ToggleButtonsProps = PropsWithChildren;
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function ToggleButtons({ children }: ToggleButtonsProps) {
+export default function ToggleButtons() {
   const { accordionEntries, namesOfExpandedGroups } = use(AccordionStateContext);
   const dispatchAccordionAction = use(DispatchContext);
 

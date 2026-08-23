@@ -1,4 +1,5 @@
 import type { Simplify } from 'type-fest';
+
 export type GroupedEntry = {
   name: string;
   entries: string[];

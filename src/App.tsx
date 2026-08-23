@@ -73,17 +73,15 @@ export default function App() {
               const isActive = namesOfExpandedGroups.includes(name);
 
               return (
-                <>
-                  <Button
-                    key={name}
-                    state={isActive ? 'active' : 'default'}
-                    onClick={handleGroupToggleClick(name)}
-                    aria-pressed={isActive}
-                    type="button"
-                  >
-                    {name}
-                  </Button>
-                </>
+                <Button
+                  key={name}
+                  state={isActive ? 'active' : 'default'}
+                  onClick={handleGroupToggleClick(name)}
+                  aria-pressed={isActive}
+                  type="button"
+                >
+                  {name}
+                </Button>
               );
             })
           }
